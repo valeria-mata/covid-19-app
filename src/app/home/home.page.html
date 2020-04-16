@@ -1,21 +1,14 @@
 <ion-content [fullscreen]="true">
   <div class="form-container">
     <form [formGroup]="userRegistration">
-      <ion-item>
-        <ion-input formControlName="name" class="form-inputs" type="text" maxlength="70" placeholder="Nombre Completo"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input formControlName="phone" class="form-inputs" type="tel" maxlength="10" placeholder="Teléfono celular"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input formControlName="email" class="form-inputs" type="email" maxlength="70" placeholder="Correo Electónico"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-checkbox formControlName="accept" checked="true">Acepta los <a>Términos y Condiciones</a></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-button class="button-purple" expand="block" (click)="sendInformation()">Continuar</ion-button>
-      </ion-item>
+      <ion-input formControlName="name" class="form-inputs" type="text" maxlength="70" placeholder="Nombre Completo"></ion-input>
+      <ion-input formControlName="phone" class="form-inputs" type="tel" maxlength="10" placeholder="Teléfono celular"></ion-input>
+      <ion-input formControlName="email" class="form-inputs" type="email" maxlength="70" placeholder="Correo Electónico"></ion-input>
+      <div class="checkbox-container">
+        <ion-checkbox formControlName="accept" checked="true"></ion-checkbox>
+        <ion-label>Acepto los <a>Términos y Condiciones</a></ion-label>
+      </div>
+      <ion-button class="button-purple" expand="block" (click)="sendInformation()">Continuar</ion-button>
     </form>
   </div>
 </ion-content>

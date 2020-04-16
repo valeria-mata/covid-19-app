@@ -2,6 +2,43 @@ ion-content {
   --background: white;
 }
 
+.form-container {
+  background: transparent;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  ion-input {
+    width: 90vw;
+    --color: purple;
+    --placeholder-color: gray;
+    border: 0.5px solid gray;
+    border-radius: 2px;
+    margin: 5% 0;
+  }
+
+  .checkbox-container {
+    margin: 8% 0;
+    ion-checkbox {
+      --background-checked: purple;
+      --border-color-checked: purple;
+    }
+    ion-label {
+      padding-left: 2%;
+      color: black;
+    }
+  }
+
+  .button-purple {
+    margin: 5% 0;
+    --background: purple;
+    color: white;
+  }
+}
+
+
 #container {
   text-align: center;
 
