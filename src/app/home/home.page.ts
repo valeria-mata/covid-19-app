@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AES256 } from '@ionic-native/aes-256/ngx';
+import { storageKeys } from './../constants/aes-keys';
+import { UserData } from '../models/user';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -14,8 +17,10 @@ export class HomePage {
   userRegistration: FormGroup;
   private secureKey: string;
   private secureIV: string;
+  private userPlain: UserData;
+  private userEncrypted: UserData;
 
-  constructor(private fb: FormBuilder, public router: Router, private alertCtrl: AlertController, private aes256: AES256) {
+  constructor(private fb: FormBuilder, public router: Router, private data: DataService, private aes256: AES256) {
 
     this.generateSecureKeyAndIV();
 
@@ -37,8 +42,20 @@ export class HomePage {
 
   sendInformation() {
     console.log("Se envía la información: " + this.userRegistration.controls.name.value + ", " + this.userRegistration.controls.phone.value + ", " + this.userRegistration.controls.email.value);
-  
-    this.aes256.encrypt(this.secureKey, this.secureIV, this.userRegistration.controls.name.value).then(res => console.log('Encrypted Data: ',res)).catch((error: any) => console.error(error));
+    this.userPlain.name = this.userRegistration.controls.name.value;
+    this.userPlain.telephone = this.userRegistration.controls.phone.value;
+    this.userPlain.email = this.userRegistration.controls.email.value;
+
+    this.data.setUserData(this.userPlain);
+
+    this.aes256.encrypt(this.secureKey, this.secureIV, this.userRegistration.controls.name.value)
+    .then(res =>
+        
+        console.log('Encrypted Data: ',res)
+    )
+    .catch(
+      (error: any) => console.error(error)
+    );
   }
 
 }
