@@ -7,6 +7,7 @@ import { storageKeys } from './../constants/aes-keys';
 import { UserData } from '../models/user';
 import { DataService } from '../services/data.service';
 import { ActivationService } from '../services/activation.service';
+import { DatabaseService } from '../services/database.service';
 
 @Component({
   selector: 'app-activation',
@@ -37,7 +38,7 @@ export class ActivationPage implements OnInit {
     Validators.minLength(6)
   ]);
 
-  constructor(private router: Router, private aes256: AES256, private data: DataService, private activation: ActivationService) {
+  constructor(private router: Router, private aes256: AES256, private data: DataService, private activation: ActivationService, private database: DatabaseService) {
     this.generateSecureKeyAndIV();
    }
 
@@ -96,7 +97,12 @@ export class ActivationPage implements OnInit {
 
   validateActivationCode() {
     this.validationSuccess();
-    this.router.navigate(['diagnose']);
+    this.database.insertRow(this.userEncrypted).then(data => {
+      console.log(data);
+      this.router.navigate(['diagnose']);
+    }, error => {
+      console.log(error);
+    });
   }
 
   validationSuccess(){

@@ -12,7 +12,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { BLE } from '@ionic-native/ble/ngx';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { HttpClientModule } from '@angular/common/http';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+import { SQLite } from '@ionic-native/sqlite/ngx';
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +26,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
     AES256,
     BLE,
     Camera,
+    SQLite,
+    SQLitePorter,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
