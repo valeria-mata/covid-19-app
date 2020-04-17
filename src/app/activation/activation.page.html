@@ -10,8 +10,7 @@
       </p>
     </div>
     <div class="inputs">
-
-      
+ 
           <ion-input only-numbers class="small-input" #field1 type="tel" [(ngModel)]="smsCode.first" maxlength="1"
             (keyup)="eventIonChange(2, 1, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
           <ion-input only-numbers class="small-input" #field2 type="tel" [(ngModel)]="smsCode.second" maxlength="1"
@@ -24,12 +23,9 @@
             (keyup)="eventIonChange(6, 4, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
           <ion-input only-numbers class="small-input" #field6 type="tel" [(ngModel)]="smsCode.sixth" maxlength="1"
             (keyup)="eventIonChange(6, 5, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
-      
-
-
-
+    
     </div>
-    <ion-button class="button-purple" expand="block" (click)="validateActivationCode()">Verificar</ion-button>
+    <ion-button class="button-purple" expand="block" (click)="validationSuccess()">Verificar</ion-button>
     <ion-button class="button-white" expand="block" (click)="sendAgain()">Enviar un código nuevo</ion-button>
   </div>
 </ion-content>

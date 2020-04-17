@@ -11,11 +11,12 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { BLE } from '@ionic-native/ble/ngx';
 import { AES256 } from '@ionic-native/aes-256/ngx';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule ],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule ],
   providers: [
     StatusBar,
     SplashScreen, 
