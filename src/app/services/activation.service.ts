@@ -35,15 +35,15 @@ export class ActivationService {
       'Something bad happened; please try again later.');
   }
 
-  sendEmail(userInfo): Observable<any> {
-    return this.http.post<string>(sendEmail, JSON.stringify(userInfo), this.httpOptions).pipe(
+  sendEmail(email, phone): Observable<any> {
+    return this.http.post<string>(sendEmail, JSON.stringify(email, phone), this.httpOptions).pipe(
       retry(2),
       catchError(this.handleError)
     );
   }
 
-  activateUser(userActive): Observable<any> {
-    return this.http.post<userActivation>(validateCode, JSON.stringify(userActive), this.httpOptions).pipe(
+  activateUser(email, phone, code): Observable<any> {
+    return this.http.post<string>(validateCode, JSON.stringify(email, phone, code), this.httpOptions).pipe(
       retry(2),
       catchError(this.handleError)
     );

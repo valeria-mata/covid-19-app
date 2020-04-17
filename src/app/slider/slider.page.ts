@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonSlides } from '@ionic/angular';
+import { slidesInfo } from '../constants/slides';
+import { Slides } from '../models/catalogs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-slider',
@@ -7,9 +11,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SliderPage implements OnInit {
 
-  constructor() { }
+  slidesInfo : Slides[] = slidesInfo;
+  disablePrevBtn: boolean = true;
+  disableNextBtn: boolean = false;
+
+  constructor(private router: Router) { }
+
+  @ViewChild('slides', {static: false}) ionSlides: IonSlides;
 
   ngOnInit() {
+  }
+
+  doCheck() {
+    let prom1 = this.ionSlides.isBeginning();
+    let prom2 = this.ionSlides.isEnd();
+  
+    Promise.all([prom1, prom2]).then((data) => {
+      data[0] ? this.disablePrevBtn = true : this.disablePrevBtn = false;
+      data[1] ? this.disableNextBtn = true : this.disableNextBtn = false;
+    });
+  }
+
+  nextSlide(){
+    this.ionSlides.slideNext();
+  }
+
+  previousSlide(){
+    this.ionSlides.slidePrev();
+  }
+
+  goToHome(){
+    this.router.navigate(['home']);
   }
 
 }
