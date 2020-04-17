@@ -7,15 +7,16 @@ import { UserData } from './../models/user';
 })
 export class DataService {
 
-  private userRegistered = new Subject<UserData>();
+  private userRegistered: UserData;
 
   constructor() { }
 
   setUserData(userRegistered: UserData) {
-    this.userRegistered.next(userRegistered);
+    // this.userRegistered.next(userRegistered);
+    this.userRegistered = userRegistered;
   }
 
   getUserData() {
-    return this.userRegistered.asObservable();
+    return this.userRegistered;
   }
 }

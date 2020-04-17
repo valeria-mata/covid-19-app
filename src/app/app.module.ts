@@ -11,16 +11,23 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { BLE } from '@ionic-native/ble/ngx';
 import { AES256 } from '@ionic-native/aes-256/ngx';
+import { HttpClientModule } from '@angular/common/http';
+import { Camera } from '@ionic-native/camera/ngx';
+import { SQLite } from '@ionic-native/sqlite/ngx';
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule ],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule ],
   providers: [
     StatusBar,
     SplashScreen, 
     AES256,
     BLE,
+    Camera,
+    SQLite,
+    SQLitePorter,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

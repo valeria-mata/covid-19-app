@@ -16,6 +16,10 @@ const routes: Routes = [
     path: 'diagnose',
     loadChildren: () => import('./diagnose/diagnose.module').then( m => m.DiagnosePageModule)
   },
+  {
+    path: '**',
+    redirectTo: 'slider'
+  }
 ];
 
 @NgModule({

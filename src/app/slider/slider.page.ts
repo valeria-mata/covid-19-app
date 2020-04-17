@@ -3,6 +3,7 @@ import { IonSlides } from '@ionic/angular';
 import { slidesInfo } from '../constants/slides';
 import { Slides } from '../models/catalogs';
 import { Router } from '@angular/router';
+import { DatabaseService } from '../services/database.service';
 
 @Component({
   selector: 'app-slider',
@@ -15,11 +16,19 @@ export class SliderPage implements OnInit {
   disablePrevBtn: boolean = true;
   disableNextBtn: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private database: DatabaseService) { }
 
   @ViewChild('slides', {static: false}) ionSlides: IonSlides;
 
   ngOnInit() {
+    this.database.selectAll().then(data => {
+      if(data.length > 0){
+        console.log(data);
+        this.router.navigate(['diagnose']);
+      }
+    }, error => {
+      console.error(error);
+    });
   }
 
   doCheck() {

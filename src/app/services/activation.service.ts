@@ -3,7 +3,7 @@ import { HttpHeaders, HttpErrorResponse, HttpClient } from '@angular/common/http
 import { throwError, Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { sendEmail, validateCode } from '../constants/endpoints';
-import { userActivation } from '../models/user';
+import { userActivation, UserData } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -36,16 +36,28 @@ export class ActivationService {
   }
 
   sendEmail(email, phone): Observable<any> {
-    return this.http.post<string>(sendEmail, JSON.stringify(email, phone), this.httpOptions).pipe(
+    return this.http.post<any>(sendEmail, JSON.stringify(email, phone), this.httpOptions).pipe(
       retry(2),
       catchError(this.handleError)
     );
   }
 
   activateUser(email, phone, code): Observable<any> {
-    return this.http.post<string>(validateCode, JSON.stringify(email, phone, code), this.httpOptions).pipe(
+    return this.http.post<any>(validateCode, JSON.stringify(email, phone, code), this.httpOptions).pipe(
       retry(2),
       catchError(this.handleError)
     );
+  }
+
+  public sendTest(userData: any) {
+    console.log(userData);
+    const url = 'https://c5.therobox.io/api/covid';
+    const body = userData;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.post(url, body, {headers: httpOptions.headers});
   }
 }
