@@ -3,9 +3,9 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { AlertController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AES256 } from '@ionic-native/aes-256/ngx';
-import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
+import { BLE } from '@ionic-native/ble/ngx';
 import { storageKeys } from './../constants/aes-keys';
-import { UserData, pairedList } from '../models/user';
+import { UserData } from '../models/user';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -15,24 +15,18 @@ import { DataService } from '../services/data.service';
 })
 export class HomePage {
 
-  
-
   userRegistration: FormGroup;
   private secureKey: string;
   private secureIV: string;
   private userPlain: UserData;
   private userEncrypted: UserData;
-  pairList : pairedList;
-  listToogle : boolean = false;
-  dataSend: string = '';
-  pairedDeviceID: number = 0;
+  devices: any[] = [];
+  statusMessage: string;
+
 
   constructor(private fb: FormBuilder, public router: Router, private data: DataService, 
-              private aes256: AES256, private bluetoothSerial: BluetoothSerial,
+              private aes256: AES256, private ble: BLE,
               private alertCtrl: AlertController, private toastCtrl: ToastController) {
-
-
-    this.checkBluetoothEnabled();
 
     this.generateSecureKeyAndIV();
 
@@ -45,6 +39,11 @@ export class HomePage {
       validateForm: [true, Validators.compose([Validators.requiredTrue])],
     });
 
+  }
+
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter');
+    //this.scan();
   }
 
   async generateSecureKeyAndIV() {
@@ -68,125 +67,9 @@ export class HomePage {
     .catch(
       (error: any) => console.error(error)
     );
+
+    this.router.navigate(['activacion']);
   }
 
-  checkBluetoothEnabled() {
-      this.bluetoothSerial.isEnabled().then(success => {
-        this.listDevices();
-      }, error => {
-        this.showError('Por favor, enciende tu bluetooth');
-      });
-  }
-
-  listDevices() {
-    this.bluetoothSerial.list().then(success => {
-      this.pairList = success;
-      this.listToogle = true;
-    }, error =>{
-      this.showError('Por favor, enciende tu bluetooth');
-      this.listToogle = false;
-    });
-  }
-
-  selectDevice() {
-    let connectedDevice = this.pairList[this.pairedDeviceID];
-    if(!connectedDevice.address) {
-      this.showError('Elija un dispositivo para conectar');
-      return;
-    }
-
-    let address = connectedDevice.adress;
-    let name = connectedDevice.name;
-
-    this.connect(address);
-  }
-
-  connect(address) {
-    this.bluetoothSerial.connect(address).subscribe(success => {
-      this.deviceConnected();
-      this.showToast('Conectado');
-    }, error => {
-      this.showError('No se estableció conexión');
-    });
-  }
-
-  deviceConnected() {
-    this.bluetoothSerial.subscribe('\n').subscribe(success => {
-      this.handleData(success);
-      this.showToast('Se ha conectado correctamente');
-    }, error => {
-      this.showError(error);
-    });
-  }
-
-  deviceDisconnected() {
-    this.bluetoothSerial.disconnect();
-    this.showToast('Dispositivo desconectado');
-  }
-
-  handleData(data) {
-    this.showToast(data);
-  }
-
-  sendData(){
-    this.dataSend = '\n';
-    this.showToast(this.dataSend);
-    this.bluetoothSerial.write(this.dataSend).then(success => {
-      this.showToast(success);
-    }, error => {
-      this.showError(error);
-    });
-  }
-
-  async showError(msg){
-    let alert = await this.alertCtrl.create({
-      header: 'Error',
-      message: msg,
-      buttons: ['Dismiss']
-    });
-    await alert.present();    
-  }
-
-  async showToast(msg) {
-    let toast = await this.toastCtrl.create({
-      message: msg,
-      duration: 1000
-    });
-
-    await toast.present();
-  }
-
-
-
-  /*bluetooth() {
-    // Write a string
-    this.bluetoothSerial.write('hello world').then(res =>
-      console.log(res), 
-      
-      );
-
-    // Array of int or bytes
-    this.bluetoothSerial.write([186, 220, 222]).then(res =>
-      console.log(res),
-  
-    );
-
-    // Typed Array
-    var data = new Uint8Array(4);
-    data[0] = 0x41;
-    data[1] = 0x42;
-    data[2] = 0x43;
-    data[3] = 0x44;
-    this.bluetoothSerial.write(data).then(res =>
-      console.log(res),
-  
-    );
-
-    // Array Buffer
-    this.bluetoothSerial.write(data.buffer).then(res =>
-      console.log(res),
-  
-    );
-  }*/
 
 }

@@ -1,81 +1,22 @@
 <ion-content fullscreen scroll-y="false">
-  <ion-slides pager>
-    <ion-slide>
+  <ion-slides pager class="slider" #slides (ionSlideWillChange)="doCheck()">
+    <ion-slide *ngFor="let slide of slidesInfo">
       <div class="slide-content">
         <div class="image">
-          <!--<img src="" alt="">-->
+          <img src="slide.image" alt="">
         </div>
         <div class="text">
           <ion-label>
-            ¡Hola! Antes de que comiences a utilizar nuestra App queremos decirte algunas cosas...
+            {{slide.text}}
           </ion-label>
+        </div>
+        <div class="buttons">
+          <div class="white-button" (click)="previousSlide()" *ngIf="!disablePrevBtn">Regresar</div>
+          <div class="white-button" (click)="nextSlide()" *ngIf="!disableNextBtn">Siguiente</div>
+          <ion-button class="start-button" (click)="goToHome()" *ngIf="disableNextBtn">Comenzar</ion-button>
         </div>
       </div>
     </ion-slide>
 
-    <ion-slide>
-      <div class="slide-content">
-        <div class="image">
-          <!--<img src="" alt="">-->
-        </div>
-        <div class="text">
-          <ion-label>
-            Queremos ayudar, es por ello que te pediremos nos proporciones algunos datos tuyos que utilizaremos sólo con fines estadísticos.
-          </ion-label>
-        </div>
-      </div>
-    </ion-slide>
-
-    <ion-slide>
-      <div class="slide-content">
-        <div class="image">
-          <!--<img src="" alt="">-->
-        </div>
-        <div class="text">
-          <ion-label>
-            La App fue creada para obtener información sobre las personas que ya han sido diagnosticadas con COVID-19...
-          </ion-label>
-        </div>
-      </div>
-    </ion-slide>
-
-    <ion-slide>
-      <div class="slide-content">
-        <div class="image">
-          <!--<img src="" alt="">-->
-        </div>
-        <div class="text">
-          <ion-label>
-            Por esta razón, te pediremos tu nombre completo, tu número de celular, tu correo electrónico y que tomes una fotografía de tu diagnóstico.
-          </ion-label>
-        </div>
-      </div>
-    </ion-slide>
-
-    <ion-slide>
-      <div class="slide-content">
-        <div class="image">
-          <!--<img src="" alt="">-->
-        </div>
-        <div class="text">
-          <ion-label>
-            Una vez que confirmes el envío de tu diagnóstico, se enviará un correo electrónico a la Secretaría de Salud con los datos que nos compartiste anteriormente.
-          </ion-label>
-        </div>
-      </div>
-    </ion-slide>
-
-    <ion-slide>
-      <div class="slide-content">
-        <div class="image">
-          <!--<img src="" alt="">-->
-        </div>
-        <div class="text">
-          <ion-label>
-            Esperamos que muy pronto podemos regresar a nuestra vida cotidiana, pero por lo pronto, te invitamos a seguir cuidando tu salud con las medidas pertinentes.
-          </ion-label>
-        </div>
-      </div>
-    </ion-slide>
   </ion-slides>
 </ion-content>

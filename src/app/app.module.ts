@@ -9,7 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
+import { BLE } from '@ionic-native/ble/ngx';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { AES256 } from '@ionic-native/aes-256/ngx';
     StatusBar,
     SplashScreen, 
     AES256,
-    BluetoothSerial,
+    BLE,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

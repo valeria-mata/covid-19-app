@@ -1,0 +1,35 @@
+<ion-content [fullscreen]="true">
+  <div class="diagnose-container">
+    <div class="image">
+      <h1>IMAGEN</h1>
+    </div>
+    <div class="text">
+      <p class="title">Antes de continuar...</p>
+      <p>
+        Te hemos enviado un correo electrónico con un código de verificación de 6 dígitos.<br>Introduce el código:
+      </p>
+    </div>
+    <div class="inputs">
+
+      
+          <ion-input only-numbers class="small-input" #field1 type="tel" [(ngModel)]="smsCode.first" maxlength="1"
+            (keyup)="eventIonChange(2, 1, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
+          <ion-input only-numbers class="small-input" #field2 type="tel" [(ngModel)]="smsCode.second" maxlength="1"
+            (keyup)="eventIonChange(3, 1, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
+          <ion-input only-numbers class="small-input" #field3 type="tel" [(ngModel)]="smsCode.third" maxlength="1"
+            (keyup)="eventIonChange(4, 2, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
+          <ion-input only-numbers class="small-input" #field4 type="tel" [(ngModel)]="smsCode.fourth" maxlength="1"
+            (keyup)="eventIonChange(5, 3, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
+          <ion-input only-numbers class="small-input" #field5 type="tel" [(ngModel)]="smsCode.fifth" maxlength="1"
+            (keyup)="eventIonChange(6, 4, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
+          <ion-input only-numbers class="small-input" #field6 type="tel" [(ngModel)]="smsCode.sixth" maxlength="1"
+            (keyup)="eventIonChange(6, 5, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
+      
+
+
+
+    </div>
+    <ion-button class="button-purple" expand="block" (click)="validateActivationCode()">Verificar</ion-button>
+    <ion-button class="button-white" expand="block" (click)="sendAgain()">Enviar un código nuevo</ion-button>
+  </div>
+</ion-content>
