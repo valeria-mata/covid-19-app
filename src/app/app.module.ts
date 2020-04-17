@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BLE } from '@ionic-native/ble/ngx';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { HttpClientModule } from '@angular/common/http';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
     SplashScreen, 
     AES256,
     BLE,
+    Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
