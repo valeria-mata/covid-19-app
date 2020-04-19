@@ -21,14 +21,6 @@ export class SliderPage implements OnInit {
   @ViewChild('slides', {static: false}) ionSlides: IonSlides;
 
   ngOnInit() {
-    this.database.selectAll().then(data => {
-      if(data.length > 0){
-        console.log(data);
-        this.router.navigate(['diagnose']);
-      }
-    }, error => {
-      console.error(error);
-    });
   }
 
   doCheck() {

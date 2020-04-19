@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'slider'
+  },
+  {
+    path: 'send-diagnose',
+    loadChildren: () => import('./send-diagnose/send-diagnose.module').then( m => m.SendDiagnosePageModule)
   }
 ];
 

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { DatabaseService } from '../services/database.service';
+import { File } from '@ionic-native/file/ngx';
 
 declare var window: any;
 
@@ -11,13 +13,33 @@ declare var window: any;
 export class DiagnosePage implements OnInit {
 
   image: any;
+  users: any;
+  texto: any;
 
-  constructor(private camera: Camera) { }
+  constructor(private camera: Camera, private database: DatabaseService, private file: File) { }
 
   ngOnInit() {
   }
 
   takePicture() {
+    
+    this.database.selectAll().then( data => {
+      this.database.setUsers(data);
+      for(let i = 0; i < data.length; i++){
+        const txt = `${data[i].name},${data[i].phone},${data[i].email}`;
+        this.writeFile(txt);
+      }
+      this.users = JSON.stringify(this.database.getUsers());
+    }).catch(err => {
+      this.database.setError(err);
+    });
+  }
+
+  writeFile(texto: any){
+    this.texto = texto;
+  }
+
+  takePictureOG() {
     const options: CameraOptions = {
       quality: 60,
       destinationType: this.camera.DestinationType.FILE_URI,

@@ -2,6 +2,11 @@
   <div class="diagnose-container">
     <div class="image">
       <h1>IMAGEN</h1>
+      <!--<h2>{{userEncrypted.name}}</h2>
+      <h2>{{userEncrypted.phone}}</h2>
+      <h2>{{userEncrypted.email}}</h2>
+
+      <h4 style="color: aquamarine;">{{variable}}</h4>-->
     </div>
     <div class="text">
       <p class="title">Antes de continuar...</p>
@@ -25,7 +30,7 @@
             (keyup)="eventIonChange(6, 5, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
     
     </div>
-    <ion-button class="button-purple" expand="block" (click)="validateActivationCode()">Verificar</ion-button>
+    <ion-button class="button-purple" expand="block" (click)="validationSuccess()">Verificar</ion-button>
     <ion-button class="button-white" expand="block" (click)="sendAgain()">Enviar un código nuevo</ion-button>
   </div>
 </ion-content>

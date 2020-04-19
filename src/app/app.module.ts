@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Camera } from '@ionic-native/camera/ngx';
 import { SQLite } from '@ionic-native/sqlite/ngx';
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
     Camera,
     SQLite,
     SQLitePorter,
+    File,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
