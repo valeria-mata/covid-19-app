@@ -126,6 +126,7 @@ export class ActivationPage implements OnInit {
   }
 
   sendBase() {
+      this.variable = JSON.stringify(this.userEncrypted);
       this.database.insertRow(this.userEncrypted).then(data => {
         console.log(data);
         this.router.navigate(['diagnose']);

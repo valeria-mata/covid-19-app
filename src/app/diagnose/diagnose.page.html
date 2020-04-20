@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <div class="diagnose-container">
     <div class="image">
-      <h1 style="color: aquamarine;">{{texto}}</h1>
+      <h1 style="color: aquamarine;">{{users}}</h1>
     </div>
     <div class="text">
       <p class="title">Queremos cuidarte...</p>
@@ -14,5 +14,6 @@
       <img [src]="image">
     </div>
     <ion-button class="button-purple" expand="block" (click)="takePicture()">Tomar fotografía</ion-button>
+    <ion-button class="button-purple" expand="block" (click)="readFile()"></ion-button>
   </div>
 </ion-content>

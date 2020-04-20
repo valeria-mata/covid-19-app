@@ -14,10 +14,10 @@ export class DiagnosePage implements OnInit {
 
   image: any;
   users: any;
-  texto: any;
+  texto: any = '';
 
   constructor(private camera: Camera, private database: DatabaseService, private file: File) { }
-
+ 
   ngOnInit() {
   }
 
@@ -26,8 +26,9 @@ export class DiagnosePage implements OnInit {
     this.database.selectAll().then( data => {
       this.database.setUsers(data);
       for(let i = 0; i < data.length; i++){
-        const txt = `${data[i].name},${data[i].phone},${data[i].email}`;
-        this.writeFile(txt);
+        const txt = `${data[i].name},${data[i].phone},${data[i].email}\n`;
+        this.texto = txt;
+        this.createFile(txt);
       }
       this.users = JSON.stringify(this.database.getUsers());
     }).catch(err => {
@@ -35,11 +36,35 @@ export class DiagnosePage implements OnInit {
     });
   }
 
-  writeFile(texto: any){
-    this.texto = texto;
+  createFile(texto: string){
+    this.file.checkFile(this.file.dataDirectory, 'data.txt')
+      .then((exits) => {
+        return this.writeFile(texto);
+      }).catch(err => {
+        return this.file.createFile(this.file.dataDirectory, 'data.txt', false)
+          .then(FileEntry => this.writeFile(texto))
+          .catch(err => console.log(err));
+      });
   }
 
-  takePictureOG() {
+  writeFile(text: string) {
+    this.file.writeFile(this.file.dataDirectory, 'data.txt', text,{replace: false, append: true });
+  }
+
+  readFile() {
+    /*this.file.readAsDataURL(this.file.dataDirectory, 'data.txt')
+      .then((data) => { 
+        alert(data);
+      });*/
+
+      this.file.readAsText(this.file.dataDirectory, 'data.txt')
+        .then((data) => {
+          alert(data);
+        })
+    
+  }
+
+  openCamera(){
     const options: CameraOptions = {
       quality: 60,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -58,5 +83,6 @@ export class DiagnosePage implements OnInit {
      // Handle error
     });
   }
+
 
 }
