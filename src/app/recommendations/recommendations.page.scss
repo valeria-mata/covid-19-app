@@ -2,7 +2,7 @@ ion-content {
     --background: white;
 }
   
-  .share-container {
+  .recommendations-container {
     background: transparent;
     height: 100vh;
     display: flex;
@@ -33,14 +33,5 @@ ion-content {
         margin: 5% 0;
         --background: purple;
         color: white;
-    }
-
-    .button-white {
-        width: 85vw;
-        margin: 6% 0;
-        --background: white;
-        color: purple;
-        text-align: center;
-        font-weight: bold;
     }
   }

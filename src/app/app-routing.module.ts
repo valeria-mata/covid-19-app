@@ -27,6 +27,10 @@ const routes: Routes = [
   {
     path: 'share',
     loadChildren: () => import('./share/share.module').then( m => m.SharePageModule)
+  },
+  {
+    path: 'recommendations',
+    loadChildren: () => import('./recommendations/recommendations.module').then( m => m.RecommendationsPageModule)
   }
 ];
 

@@ -1,0 +1,14 @@
+<ion-content [fullscreen]="true">
+  <div class="recommendations-container">
+    <div class="image">
+      <img src="/assets/logo/logo.png" alt="">
+    </div>
+    <div class="text">
+      <p class="title">¡Muchas gracias!</p>
+      <div *ngFor="let section of recommendations">
+        <div [innerHTML]="section.section"></div>
+      </div>
+    </div>
+    <ion-button class="button-purple" expand="block" (click)="goToHome()">Finalizar</ion-button>
+  </div>
+</ion-content>

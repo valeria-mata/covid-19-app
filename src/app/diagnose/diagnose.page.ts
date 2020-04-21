@@ -3,6 +3,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { DatabaseService } from '../services/database.service';
 import { File } from '@ionic-native/file/ngx';
 import { DataService } from '../services/data.service';
+import { Router } from '@angular/router';
 
 declare var window: any;
 
@@ -17,7 +18,7 @@ export class DiagnosePage implements OnInit {
   users: any;
   texto: any = '';
 
-  constructor(private camera: Camera, private database: DatabaseService, private data: DataService, private file: File) { }
+  constructor(private router: Router, private camera: Camera, private database: DatabaseService, private data: DataService, private file: File) { }
  
   ngOnInit() {
   }
@@ -78,8 +79,7 @@ export class DiagnosePage implements OnInit {
      // imageData is either a base64 encoded string or a file URI
      this.image = window.Ionic.WebView.convertFileSrc( imageData );
      this.data.setPicture = this.image;
-
-
+     this.router.navigate(['send-diagnose']);
 
     }, (err) => {
      // Handle error

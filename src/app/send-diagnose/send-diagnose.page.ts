@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../services/database.service';
 import { File } from '@ionic-native/file/ngx';
 import { DataService } from '../services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-send-diagnose',
@@ -14,7 +15,7 @@ export class SendDiagnosePage implements OnInit {
   users: any;
   texto: any = '';
 
-  constructor(private database: DatabaseService, private data: DataService, private file: File) { 
+  constructor(private router: Router, private database: DatabaseService, private data: DataService, private file: File) { 
     this.data.getPicture().subscribe(img => {
       this.image = img;
     });
@@ -26,6 +27,8 @@ export class SendDiagnosePage implements OnInit {
   sendInfo() {
 
     this.generateTxt();
+
+    //this.router.navigate(['share']);
 
   }
 
