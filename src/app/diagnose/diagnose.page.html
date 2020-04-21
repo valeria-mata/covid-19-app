@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <div class="diagnose-container">
     <div class="image">
-      <h1 style="color: aquamarine;">{{users}}</h1>
+      <img src="/assets/logo/logo.png" alt="">
     </div>
     <div class="text">
       <p class="title">Queremos cuidarte...</p>
@@ -10,10 +10,6 @@
         Si tu respuesta es afirmativa, a cotinuación te pedimos tomes una fotografía del diagnóstico y confirmes el envío.
       </p>
     </div>
-    <div>
-      <img [src]="image">
-    </div>
-    <ion-button class="button-purple" expand="block" (click)="takePicture()">Tomar fotografía</ion-button>
-    <ion-button class="button-purple" expand="block" (click)="readFile()"></ion-button>
+    <ion-button class="button-purple" expand="block" (click)="openCamera()">Tomar fotografía</ion-button>
   </div>
 </ion-content>

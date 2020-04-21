@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { DatabaseService } from '../services/database.service';
 import { File } from '@ionic-native/file/ngx';
+import { DataService } from '../services/data.service';
 
 declare var window: any;
 
@@ -16,13 +17,12 @@ export class DiagnosePage implements OnInit {
   users: any;
   texto: any = '';
 
-  constructor(private camera: Camera, private database: DatabaseService, private file: File) { }
+  constructor(private camera: Camera, private database: DatabaseService, private data: DataService, private file: File) { }
  
   ngOnInit() {
   }
 
   takePicture() {
-    
     this.database.selectAll().then( data => {
       this.database.setUsers(data);
       for(let i = 0; i < data.length; i++){
@@ -77,7 +77,9 @@ export class DiagnosePage implements OnInit {
     this.camera.getPicture(options).then((imageData) => {
      // imageData is either a base64 encoded string or a file URI
      this.image = window.Ionic.WebView.convertFileSrc( imageData );
-     console.log(this.image);
+     this.data.setPicture = this.image;
+
+
 
     }, (err) => {
      // Handle error

@@ -30,14 +30,10 @@ export class ActivationPage implements OnInit {
   constantKeys = storageKeys;
   aux:  any = '';
   aux2: any = '';
-  aux3: any = '';
   variable: any;
 
   smsCode: any = { first: '', second: '', third: '', fourth: '', fifth: '', sixth: '' };
-  code = new FormControl('', [
-    Validators.required,
-    Validators.minLength(6)
-  ]);
+  code = new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)]));
 
   constructor(private router: Router, private aes256: AES256, private data: DataService, 
               private activation: ActivationService, private database: DatabaseService) {
@@ -48,7 +44,7 @@ export class ActivationPage implements OnInit {
   }
 
   generateCode() {
-    this.code.setValue(`${this.smsCode.first}${this.smsCode.second}${this.smsCode.third}${this.smsCode.fourth}${this.smsCode.fifth}${this.smsCode.sixth}`);
+   this.code.setValue(`${this.smsCode.first}${this.smsCode.second}${this.smsCode.third}${this.smsCode.fourth}${this.smsCode.fifth}${this.smsCode.sixth}`);
   }
 
   eventIonChange(next, before, event) {
@@ -98,6 +94,9 @@ export class ActivationPage implements OnInit {
   }
 
   validateActivationCode() {
+
+    //añadir aquí la petición al endpoint para saber si es correcto el código, si es así llamar a 
+    //la función validationSuccess, si no, enviar mensaje de error
     this.validationSuccess();
   }
 
@@ -126,7 +125,7 @@ export class ActivationPage implements OnInit {
   }
 
   sendBase() {
-      this.variable = JSON.stringify(this.userEncrypted);
+      //this.variable = JSON.stringify(this.userEncrypted);
       this.database.insertRow(this.userEncrypted).then(data => {
         console.log(data);
         this.router.navigate(['diagnose']);

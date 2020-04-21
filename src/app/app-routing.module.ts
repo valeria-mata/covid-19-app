@@ -23,6 +23,10 @@ const routes: Routes = [
   {
     path: 'send-diagnose',
     loadChildren: () => import('./send-diagnose/send-diagnose.module').then( m => m.SendDiagnosePageModule)
+  },
+  {
+    path: 'share',
+    loadChildren: () => import('./share/share.module').then( m => m.SharePageModule)
   }
 ];
 
