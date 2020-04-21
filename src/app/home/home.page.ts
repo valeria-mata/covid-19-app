@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserData } from '../models/user';
 import { DataService } from '../services/data.service';
-import { IonRouterOutlet } from '@ionic/angular';
+import { ActivationService } from '../services/activation.service';
 
 @Component({
   selector: 'app-home',
@@ -17,8 +17,8 @@ export class HomePage {
 
   aux : any = '';
 
-  constructor(private fb: FormBuilder, public router: Router, private routerOutlet: IonRouterOutlet,
-              private data: DataService) {
+  constructor(private fb: FormBuilder, public router: Router,
+              private data: DataService, private activation: ActivationService) {
 
     this.userRegistration = this.fb.group({
       name: ['', Validators.compose([Validators.required])],
@@ -39,7 +39,15 @@ export class HomePage {
     };
 
     this.data.setUserData(this.userPlain);
-    this.router.navigate(['activation']);
+
+    this.activation.sendEmail(this.userRegistration.controls.email.value, this.userRegistration.controls.phone.value).subscribe(res => {
+      console.log(res);
+      this.router.navigate(['activation']);
+
+    }, error => {
+      console.log(error);
+    });
+    
   }
 
 }

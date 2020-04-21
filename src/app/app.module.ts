@@ -16,11 +16,13 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { SQLite } from '@ionic-native/sqlite/ngx';
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule ],
+  imports: [BrowserModule, IonicModule.forRoot({ swipeBackEnabled: false }), AppRoutingModule, HttpClientModule ],
   providers: [
     StatusBar,
     SplashScreen, 
@@ -30,6 +32,7 @@ import { File } from '@ionic-native/file/ngx';
     SQLite,
     SQLitePorter,
     File,
+    BluetoothLE,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

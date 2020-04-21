@@ -23,6 +23,7 @@
     "@capacitor/core": "2.0.1",
     "@ionic-native/aes-256": "^5.23.0",
     "@ionic-native/ble": "^5.23.0",
+    "@ionic-native/bluetooth-le": "^5.24.0",
     "@ionic-native/camera": "^5.24.0",
     "@ionic-native/core": "^5.0.7",
     "@ionic-native/diagnostic": "^5.23.0",
@@ -42,8 +43,10 @@
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-file": "^6.0.2",
     "cordova-sqlite-storage": "^5.0.0",
+    "cordova-zip-plugin": "^2.0.0",
     "cordova.plugins.diagnostic": "^5.0.1",
     "core-js": "^2.5.4",
+    "jszip": "^3.4.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "uk.co.workingedge.cordova.plugin.sqliteporter": "^1.1.1",
@@ -102,7 +105,8 @@
       },
       "cordova-sqlite-storage": {},
       "uk.co.workingedge.cordova.plugin.sqliteporter": {},
-      "cordova-plugin-file": {}
+      "cordova-plugin-file": {},
+      "com.jjdltc.cordova.plugin.zip": {}
     },
     "platforms": [
       "android",
