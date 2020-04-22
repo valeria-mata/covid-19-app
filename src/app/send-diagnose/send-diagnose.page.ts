@@ -3,7 +3,7 @@ import { DatabaseService } from '../services/database.service';
 import { File } from '@ionic-native/file/ngx';
 import { DataService } from '../services/data.service';
 import { Router } from '@angular/router';
-import * as JSZip from 'jszip';
+//import * as JSZip from 'jszip';
 
 @Component({
   selector: 'app-send-diagnose',
@@ -18,12 +18,10 @@ export class SendDiagnosePage implements OnInit {
   zipFile: any;
 
   constructor(private router: Router, private database: DatabaseService, private data: DataService, private file: File) { 
-    this.data.getPicture().subscribe(img => {
-      this.image = img;
-    });
   }
 
   ngOnInit() {
+    // this.image = this.data.getPicture();
   }
 
   sendInfo() {
@@ -65,19 +63,19 @@ export class SendDiagnosePage implements OnInit {
   }
 
   readFile() {
-    /*this.file.readAsDataURL(this.file.dataDirectory, 'data.txt')
-      .then((data) => { 
-        alert(data);
-      });*/
+    //this.file.readAsDataURL(this.file.dataDirectory, 'data.txt')
+    //  .then((data) => { 
+    //    alert(data);
+    //  });
 
     this.file.readAsText(this.file.dataDirectory, 'data.txt').then((data) => {
       alert(data);
-      this.generateZip(this.file.dataDirectory, this.image)
+      //this.generateZip(this.file.dataDirectory, this.image)
     });
   }
 
 
-  generateZip(txt, img){
+  /*generateZip(txt, img){
     const zip = new JSZip();
     const folder = zip.folder('data');
     let blobPromise = fetch(txt).then(r => {
@@ -95,6 +93,6 @@ export class SendDiagnosePage implements OnInit {
     zip.generateAsync({type:"blob"}).then(blob => {
       this.zipFile = blob
     }).catch(e => console.log(e));
-  }
+  }*/
 
 }

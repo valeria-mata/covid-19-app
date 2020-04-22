@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { UserData } from '../models/user';
 import { DataService } from '../services/data.service';
 import { ActivationService } from '../services/activation.service';
+import { AlertController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-home',
@@ -17,7 +19,7 @@ export class HomePage {
 
   aux : any = '';
 
-  constructor(private fb: FormBuilder, public router: Router,
+  constructor(private fb: FormBuilder, public router: Router, public alertController: AlertController,
               private data: DataService, private activation: ActivationService) {
 
     this.userRegistration = this.fb.group({
@@ -30,6 +32,22 @@ export class HomePage {
 
   }
 
+  ngOnInit() {
+    const header = 'Importante';
+    const msg = 'Es necesario que mantengas la conexión a internet activa durante el registro y activación de tu cuenta.';
+    this.presentAlert(header, msg);
+  }
+
+  async presentAlert(header, msg) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: msg,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
   sendInformation() {
     
    this.userPlain = {
@@ -40,10 +58,8 @@ export class HomePage {
 
     this.data.setUserData(this.userPlain);
 
-    this.activation.sendEmail(this.userRegistration.controls.email.value, this.userRegistration.controls.phone.value).subscribe(res => {
-      console.log(res);
+    this.activation.sendEmail(this.userRegistration.controls.email.value, this.userRegistration.controls.phone.value).subscribe(res => {   
       this.router.navigate(['activation']);
-
     }, error => {
       console.log(error);
     });

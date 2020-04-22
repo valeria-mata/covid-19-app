@@ -106,9 +106,10 @@ export class DiagnosePage implements OnInit {
     
     this.camera.getPicture(options).then((imageData) => {
      // imageData is either a base64 encoded string or a file URI
-     this.image = window.Ionic.WebView.convertFileSrc( imageData );
-     this.data.setPicture = this.image;
-     this.router.navigate(['send-diagnose']);
+      this.image = window.Ionic.WebView.convertFileSrc( imageData );
+      this.data.setPicture(this.image);
+      alert(this.image);
+      this.router.navigate(['send-diagnose']);
 
     }, (err) => {
      // Handle error

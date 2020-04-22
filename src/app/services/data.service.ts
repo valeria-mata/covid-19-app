@@ -8,12 +8,11 @@ import { UserData } from './../models/user';
 export class DataService {
 
   private userRegistered: UserData;
-  private picture = new Subject<any>();
+  private picture: any;
 
   constructor() { }
 
   setUserData(userRegistered: UserData) {
-    // this.userRegistered.next(userRegistered);
     this.userRegistered = userRegistered;
   }
 
@@ -22,10 +21,10 @@ export class DataService {
   }
 
   setPicture(picture: any) {
-    this.picture.next(picture);
+    this.picture = picture;
   }
 
   getPicture() {
-    return this.picture.asObservable();
+    return this.picture;
   }
 }

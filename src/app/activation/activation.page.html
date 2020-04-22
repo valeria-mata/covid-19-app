@@ -30,7 +30,7 @@
       <ion-input only-numbers class="small-input" #field6 type="tel" [(ngModel)]="smsCode.sixth" maxlength="1"
         (keyup)="eventIonChange(6, 5, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
     </div>
-    <ion-button class="button-purple" expand="block" (click)="validationSuccess()" [disabled]="!code.valid">Verificar</ion-button>
+    <ion-button class="button-purple" expand="block" (click)="validateActivationCode()" [disabled]="!code.valid">Verificar</ion-button>
     <div class="button-white" (click)="sendAgain()">Enviar un código nuevo</div>
   </div>
 </ion-content>

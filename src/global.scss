@@ -24,3 +24,19 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.alert-wrapper.sc-ion-alert-md {
+    --background: white;
+}
+
+.alert-title.sc-ion-alert-md {
+    color: black;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.alert-button-inner.sc-ion-alert-md {
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    color: purple;
+}
