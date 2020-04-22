@@ -28,17 +28,15 @@ export class ActivationPage implements OnInit {
   userPlain: UserData;
   userEncrypted: UserData;
   constantKeys = storageKeys;
-  aux: any = '1';
-  aux2: any = '2';
-  aux3: any = '3';
+  aux:  any = '';
+  aux2: any = '';
+  variable: any;
 
   smsCode: any = { first: '', second: '', third: '', fourth: '', fifth: '', sixth: '' };
-  code = new FormControl('', [
-    Validators.required,
-    Validators.minLength(6)
-  ]);
+  code = new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)]));
 
-  constructor(private router: Router, private aes256: AES256, private data: DataService, private activation: ActivationService, private database: DatabaseService) {
+  constructor(private router: Router, private aes256: AES256, private data: DataService, 
+              private activation: ActivationService, private database: DatabaseService) {
     this.generateSecureKeyAndIV();
    }
 
@@ -46,7 +44,7 @@ export class ActivationPage implements OnInit {
   }
 
   generateCode() {
-    this.code.setValue(`${this.smsCode.first}${this.smsCode.second}${this.smsCode.third}${this.smsCode.fourth}${this.smsCode.fifth}${this.smsCode.sixth}`);
+   this.code.setValue(`${this.smsCode.first}${this.smsCode.second}${this.smsCode.third}${this.smsCode.fourth}${this.smsCode.fifth}${this.smsCode.sixth}`);
   }
 
   eventIonChange(next, before, event) {
@@ -96,13 +94,10 @@ export class ActivationPage implements OnInit {
   }
 
   validateActivationCode() {
+
+    //añadir aquí la petición al endpoint para saber si es correcto el código, si es así llamar a 
+    //la función validationSuccess, si no, enviar mensaje de error
     this.validationSuccess();
-    this.database.insertRow(this.userEncrypted).then(data => {
-      console.log(data);
-      this.router.navigate(['diagnose']);
-    }, error => {
-      console.log(error);
-    });
   }
 
   validationSuccess(){
@@ -110,35 +105,34 @@ export class ActivationPage implements OnInit {
     this.userPlain = this.data.getUserData();
     
     this.aes256.encrypt(this.secureKey, this.secureIV, this.userPlain.name)
-    .then(res =>
-        this.aux = res
-    )
-    .catch(
-      (error: any) => console.error(error)
-    );
+    .then(res => {
+      this.aux = res;
+      this.aes256.encrypt(this.secureKey, this.secureIV, this.userPlain.phone)
+        .then(res2 => {
+          this.aux2 = res2;
+          this.aes256.encrypt(this.secureKey, this.secureIV, this.userPlain.email)
+            .then(res3 => {
+              this.userEncrypted = {
+                name: this.aux,
+                phone: this.aux2,
+                email: res3
+              };
+              this.data.setUserData(this.userEncrypted);
+              this.sendBase();
+            });
+        });
+    });
+  }
 
-    this.aes256.encrypt(this.secureKey, this.secureIV, this.userPlain.phone)
-    .then(res =>
-        this.aux2 = res
-    )
-    .catch(
-      (error: any) => console.error(error)
-    );
+  sendBase() {
+      //this.variable = JSON.stringify(this.userEncrypted);
+      this.database.insertRow(this.userEncrypted).then(data => {
+        console.log(data);
+        this.router.navigate(['diagnose']);
+      }, error => {
+        console.log(error);
+      });
 
-    this.aes256.encrypt(this.secureKey, this.secureIV, this.userPlain.email)
-    .then(res =>
-        this.aux3 = res
-    )
-    .catch(
-      (error: any) => console.error(error)
-    );
-      
-    this.userEncrypted = {
-      name: this.aux,
-      phone: this.aux2,
-      email: this.aux3
-    };
-    this.data.setUserData(this.userEncrypted);
   }
 
   sendAgain(){

@@ -36,17 +36,16 @@ export class ActivationService {
   }
 
   sendEmail(email, phone): Observable<any> {
-    return this.http.post<any>(sendEmail, JSON.stringify(email, phone), this.httpOptions).pipe(
-      retry(2),
-      catchError(this.handleError)
-    );
+    const body = {
+      email,
+      phone
+    };
+    console.log(body);
+    return this.http.post<any>(sendEmail, body, {headers: this.httpOptions.headers});
   }
 
   activateUser(email, phone, code): Observable<any> {
-    return this.http.post<any>(validateCode, JSON.stringify(email, phone, code), this.httpOptions).pipe(
-      retry(2),
-      catchError(this.handleError)
-    );
+    return this.http.post<any>(validateCode, JSON.stringify(email, phone, code), this.httpOptions);
   }
 
   public sendTest(userData: any) {

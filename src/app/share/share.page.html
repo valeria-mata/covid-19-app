@@ -1,0 +1,16 @@
+<ion-content [fullscreen]="true">
+  <div class="share-container">
+    <div class="image">
+      <img src="/assets/logo/logo.png" alt="">
+    </div>
+    <div class="text">
+      <p class="title">¡Salvemos más vidas!</p>
+      <p>
+        Te invitamos a compartir con todos tus amigos que existe esta aplicación, así más personas 
+        podrán aportar su granito de arena para salvar vidas al igual que tú.
+      </p>
+    </div>
+    <ion-button class="button-purple" expand="block" (click)="openShare()">Compartir</ion-button>
+    <div class="button-white" (click)="skipShare()">Ahora no</div>
+  </div>
+</ion-content>

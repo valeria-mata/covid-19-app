@@ -1,18 +1,28 @@
+ion-toolbar {
+    --background: white;
+    color: purple;
+}
+
 ion-content {
     --background: white;
-  }
-  
-  .diagnose-container {
+}
+
+.send-container {
     background: transparent;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 
     .image {
-        height: 20%;
-        margin: 5% 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .picture-taken {
+            height: 30%;
+        }
     }
 
     .text {
@@ -34,4 +44,4 @@ ion-content {
         --background: purple;
         color: white;
     }
-  }
+}

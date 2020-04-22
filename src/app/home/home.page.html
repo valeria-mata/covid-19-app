@@ -1,5 +1,8 @@
 <ion-content [fullscreen]="true">
   <div class="form-container">
+    <div class="image">
+      <img src="/assets/logo/logo.png" alt="">
+    </div>
     <form [formGroup]="userRegistration">
       <ion-input formControlName="name" class="form-inputs" type="text" maxlength="70" placeholder="Nombre Completo"></ion-input>
       <ion-input formControlName="phone" class="form-inputs" type="tel" maxlength="10" placeholder="Teléfono celular"></ion-input>
@@ -8,7 +11,7 @@
         <ion-checkbox formControlName="accept" checked="true"></ion-checkbox>
         <ion-label>Acepto los <a>Términos y Condiciones</a></ion-label>
       </div>
-      <ion-button class="button-purple" expand="block" (click)="sendInformation()">Continuar</ion-button>
+      <ion-button class="button-purple" expand="block" (click)="sendInformation()" [disabled]="!userRegistration.valid">Continuar</ion-button>
     </form>
   </div>
 

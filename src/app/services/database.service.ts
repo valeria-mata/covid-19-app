@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { UserData } from '../models/user';
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,28 @@ import { UserData } from '../models/user';
 export class DatabaseService {
 
   db: SQLiteObject = null;
+  users: any;
+  error: any;
 
-  constructor() { }
+  constructor(private porter: SQLitePorter) { }
+
+  setUsers(users) {
+    this.users = users
+    return this.users;
+  }
+
+  setError(error) {
+    this.error = error;
+    return this.error;
+  }
+
+  getError(){
+    return this.error;
+  }
+
+  getUsers() {
+    return this.users;
+  }
 
   setDatabase(db: SQLiteObject) {
     if(this.db === null){
@@ -17,9 +38,9 @@ export class DatabaseService {
     }
   }
 
-  createTable(){
+  createTable(dbase: SQLiteObject){
     let sql = 'CREATE TABLE IF NOT EXISTS userInformation (name TEXT, phone TEXT, email TEXT)';
-    return this.db.executeSql(sql, []);
+    return this.porter.importSqlToDb(dbase, sql);
   }
 
   selectAll(){

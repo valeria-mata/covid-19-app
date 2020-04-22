@@ -19,6 +19,18 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'slider'
+  },
+  {
+    path: 'send-diagnose',
+    loadChildren: () => import('./send-diagnose/send-diagnose.module').then( m => m.SendDiagnosePageModule)
+  },
+  {
+    path: 'share',
+    loadChildren: () => import('./share/share.module').then( m => m.SharePageModule)
+  },
+  {
+    path: 'recommendations',
+    loadChildren: () => import('./recommendations/recommendations.module').then( m => m.RecommendationsPageModule)
   }
 ];
 

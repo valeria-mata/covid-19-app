@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="diagnose"></ion-back-button>
+      <ion-label>Atrás</ion-label>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="send-container">
+    <div class="image">
+      <img class="picture-taken" [src]="image">
+    </div>
+    <div class="text">
+      <p class="title">Confirmar envío de diagnóstico</p>
+      <p>
+        Recuerda que es de vital importancia tu respuesta.
+      </p>
+    </div>
+    <ion-button class="button-purple" expand="block" (click)="sendInfo()">Enviar diagnóstico</ion-button>
+  </div>
+</ion-content>
