@@ -18,6 +18,7 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
     File,
     BluetoothLE,
     Diagnostic,
+    SocialSharing,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

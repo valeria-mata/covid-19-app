@@ -9,6 +9,7 @@ export class DataService {
 
   private userRegistered: UserData;
   private picture: any;
+  private key: string;
 
   constructor() { }
 
@@ -20,6 +21,14 @@ export class DataService {
     return this.userRegistered;
   }
 
+  setAESKey(key: string) {
+    this.key = key;
+  }
+
+  getAESKey() {
+    return this.key;
+  }
+
   setPicture(picture: any) {
     this.picture = picture;
   }
@@ -27,4 +36,5 @@ export class DataService {
   getPicture() {
     return this.picture;
   }
+
 }

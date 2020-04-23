@@ -6,6 +6,7 @@ import { DataService } from '../services/data.service';
 import { Router } from '@angular/router';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
+import { AlertController } from '@ionic/angular';
 
 declare var window: any;
 
@@ -23,7 +24,7 @@ export class DiagnosePage implements OnInit {
   serviceUUID: string = 'E20A39F4-73F5-4BC4-A12F-17D1AD07A961';
   characteristicUUID: string = '08590F7E-DB05-467E-8757-72F6FAEB13D4';
 
-  constructor(private router: Router, private database: DatabaseService, private data: DataService, 
+  constructor(private router: Router, public alertController: AlertController, private database: DatabaseService, private data: DataService, 
               private camera: Camera, private file: File, private diagnostic: Diagnostic, private bluetooth: BluetoothLE) { }
  
   ngOnInit() {
@@ -49,6 +50,37 @@ export class DiagnosePage implements OnInit {
       }, error => {
         alert(JSON.stringify(error));
       });
+    });
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      subHeader: 'Subtitle',
+      message: 'This is an alert message.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  openCamera(){
+    const options: CameraOptions = {
+      quality: 60,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      sourceType: this.camera.PictureSourceType.CAMERA
+    };
+    
+    this.camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+      this.image = window.Ionic.WebView.convertFileSrc( imageData );
+      this.data.setPicture(this.image);
+      this.router.navigate(['send-diagnose']);
+    }, (err) => {
+     // Handle error
     });
   }
 
@@ -92,29 +124,7 @@ export class DiagnosePage implements OnInit {
           alert(data);
         })
     
-  }
-
-  openCamera(){
-    const options: CameraOptions = {
-      quality: 60,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true,
-      sourceType: this.camera.PictureSourceType.CAMERA
-    };
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-      this.image = window.Ionic.WebView.convertFileSrc( imageData );
-      this.data.setPicture(this.image);
-      alert(this.image);
-      this.router.navigate(['send-diagnose']);
-
-    }, (err) => {
-     // Handle error
-    });
-  }
+  } 
 
   scan(){
     // this.diagnostic.switchToLocationSettings();

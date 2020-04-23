@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SharingService } from '../services/sharing.service';
 
 @Component({
   selector: 'app-share',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class SharePage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private social: SharingService) { }
 
   ngOnInit() {
   }
