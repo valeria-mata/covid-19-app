@@ -32,7 +32,8 @@ ion-content {
             align-items: top;
             text-align: center;
             color: purple;
-            font-size: 2.2vh;
+            //font-size: 2.2vh;
+            font-size: 15px;
         }
 
         .buttons {
@@ -50,6 +51,7 @@ ion-content {
                 justify-content: left;
                 --background: transparent;
                 color: purple;
+                font-size: 12px;
             }
 
             .right-button {
@@ -63,6 +65,7 @@ ion-content {
                 .start-button {
                     --background: purple;
                     color: white;
+                    font-size: 12px;
                 }
             }
         }

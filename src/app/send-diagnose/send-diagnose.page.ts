@@ -18,19 +18,17 @@ export class SendDiagnosePage implements OnInit {
   zipFile: any;
 
   constructor(private router: Router, private database: DatabaseService, private data: DataService, private file: File) { 
-    this.data.getPicture().subscribe(img => {
-      this.image = img;
-    });
   }
 
   ngOnInit() {
+    this.image = this.data.getPicture();
   }
 
   sendInfo() {
 
-    this.generateTxt();
+    //this.generateTxt();
 
-    //this.router.navigate(['share']);
+    this.router.navigate(['share']);
 
   }
 
@@ -44,6 +42,7 @@ export class SendDiagnosePage implements OnInit {
       }
       this.users = JSON.stringify(this.database.getUsers());
       this.readFile();
+      //this.generateZip(this.file.dataDirectory, this.image);
     }).catch(err => {
       this.database.setError(err);
     });
@@ -71,8 +70,8 @@ export class SendDiagnosePage implements OnInit {
       });*/
 
     this.file.readAsText(this.file.dataDirectory, 'data.txt').then((data) => {
-      alert(data);
-      this.generateZip(this.file.dataDirectory, this.image)
+      //alert(data);
+      this.generateZip(this.file.dataDirectory, this.image);
     });
   }
 
@@ -82,19 +81,24 @@ export class SendDiagnosePage implements OnInit {
     const folder = zip.folder('data');
     let blobPromise = fetch(txt).then(r => {
       if(r.status === 200) return r.blob() 
+      alert((r));
         return Promise.reject(new Error(r.statusText))
     });
     folder.file('data.txt', blobPromise);
 
-    let blobPromise2 = fetch(img).then(r => {
-      if(r.status === 200) return r.blob()
-      return Promise.reject(new Error(r.statusText))
+    let blobPromise2 = fetch(img).then(r2 => {
+      alert((r2));
+      if(r2.status === 200) return r2.blob()
+      return Promise.reject(new Error(r2.statusText))
     })
     folder.file('diagnose.jpg', blobPromise2);
 
     zip.generateAsync({type:"blob"}).then(blob => {
-      this.zipFile = blob
-    }).catch(e => console.log(e));
+      this.zipFile = blob;
+      alert(JSON.stringify('zip' + blob));
+    }).catch(e =>
+       alert(JSON.stringify('error'+ e))
+      );
   }
 
 }

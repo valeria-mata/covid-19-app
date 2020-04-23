@@ -17,10 +17,6 @@ const routes: Routes = [
     loadChildren: () => import('./diagnose/diagnose.module').then( m => m.DiagnosePageModule)
   },
   {
-    path: '**',
-    redirectTo: 'slider'
-  },
-  {
     path: 'send-diagnose',
     loadChildren: () => import('./send-diagnose/send-diagnose.module').then( m => m.SendDiagnosePageModule)
   },
@@ -31,6 +27,10 @@ const routes: Routes = [
   {
     path: 'recommendations',
     loadChildren: () => import('./recommendations/recommendations.module').then( m => m.RecommendationsPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'slider'
   }
 ];
 

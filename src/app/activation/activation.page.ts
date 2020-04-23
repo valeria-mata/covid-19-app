@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
-import { bindNodeCallback } from 'rxjs';
+import { AlertController } from '@ionic/angular';
 import { AES256 } from '@ionic-native/aes-256/ngx';
-import { storageKeys } from './../constants/aes-keys';
 import { UserData } from '../models/user';
 import { DataService } from '../services/data.service';
 import { ActivationService } from '../services/activation.service';
@@ -14,6 +13,7 @@ import { DatabaseService } from '../services/database.service';
   templateUrl: './activation.page.html',
   styleUrls: ['./activation.page.scss'],
 })
+
 export class ActivationPage implements OnInit {
 
   @ViewChild('field1', { static: false }) field1;
@@ -23,24 +23,24 @@ export class ActivationPage implements OnInit {
   @ViewChild('field5', { static: false }) field5;
   @ViewChild('field6', { static: false }) field6;
 
+  private keyIV: string = 'EstaEsMik3Yasjcis383ksqwertyuiop';
   private secureKey: string;
   private secureIV: string;
   userPlain: UserData;
   userEncrypted: UserData;
-  constantKeys = storageKeys;
   aux:  any = '';
   aux2: any = '';
-  variable: any;
 
   smsCode: any = { first: '', second: '', third: '', fourth: '', fifth: '', sixth: '' };
   code = new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)]));
 
-  constructor(private router: Router, private aes256: AES256, private data: DataService, 
-              private activation: ActivationService, private database: DatabaseService) {
-    this.generateSecureKeyAndIV();
-   }
+  constructor(private router: Router, public alertController: AlertController, private aes256: AES256, 
+              private data: DataService, private activation: ActivationService, private database: DatabaseService) {
+      this.generateSecureKeyAndIV();
+  }
 
   ngOnInit() {
+    this.userPlain = this.data.getUserData();
   }
 
   generateCode() {
@@ -88,22 +88,50 @@ export class ActivationPage implements OnInit {
     }
   }
 
+  async presentAlert(header, msg) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: msg,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
   async generateSecureKeyAndIV() {
-    this.secureKey = await this.aes256.generateSecureKey('EstaEsMik3Yasjcis383ksqwertyuiop'); // Returns a 32 bytes string
-    this.secureIV = await this.aes256.generateSecureIV('random password 12345'); // Returns a 16 bytes string
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for(let i = 0; i < 16; i++){
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    this.data.setAESKey(result);
+    this.secureKey = await this.aes256.generateSecureKey(this.keyIV); // Returns a 32 bytes string
+    this.secureIV = await this.aes256.generateSecureIV(result); // Returns a 16 bytes string
   }
 
   validateActivationCode() {
 
-    //añadir aquí la petición al endpoint para saber si es correcto el código, si es así llamar a 
-    //la función validationSuccess, si no, enviar mensaje de error
-    this.validationSuccess();
+    this.activation.activateUser(this.userPlain.email, this.userPlain.phone, this.code.value).subscribe(res => {
+      console.log(res);
+      if(res.code === 0) {
+        this.encryptData();
+      } else if(res.code === 1) {
+        const header = 'Código incorrecto';
+        const msg = 'Inténtalo nuevamente';
+        this.presentAlert(header, msg);
+        console.log('Código incorrecto');
+      } else {
+        const header = 'Código caducado';
+        const msg = 'Ingresa nuevamente tus datos para volver a recibir un código';
+        this.presentAlert(header, msg);
+        console.log('Código expirado');
+        this.sendAgain();
+      }
+    }); 
   }
 
-  validationSuccess(){
-    console.log('Validacion');
-    this.userPlain = this.data.getUserData();
-    
+  encryptData(){
     this.aes256.encrypt(this.secureKey, this.secureIV, this.userPlain.name)
     .then(res => {
       this.aux = res;
@@ -118,14 +146,13 @@ export class ActivationPage implements OnInit {
                 email: res3
               };
               this.data.setUserData(this.userEncrypted);
-              this.sendBase();
+              this.sendToDatabase();
             });
         });
     });
   }
 
-  sendBase() {
-      //this.variable = JSON.stringify(this.userEncrypted);
+  sendToDatabase(){
       this.database.insertRow(this.userEncrypted).then(data => {
         console.log(data);
         this.router.navigate(['diagnose']);
@@ -136,7 +163,11 @@ export class ActivationPage implements OnInit {
   }
 
   sendAgain(){
-    this.router.navigate(['home']);
+    this.activation.sendEmail(this.userPlain.email, this.userPlain.phone).subscribe(res => {
+      const header = 'Código reenviado';
+        const msg = 'Te llegará un código nuevo para activar tu cuenta.';
+        this.presentAlert(header, msg);
+    })
   }
 
 }

@@ -8,12 +8,12 @@ import { UserData } from './../models/user';
 export class DataService {
 
   private userRegistered: UserData;
-  private picture = new Subject<any>();
+  private picture: any;
+  private key: string;
 
   constructor() { }
 
   setUserData(userRegistered: UserData) {
-    // this.userRegistered.next(userRegistered);
     this.userRegistered = userRegistered;
   }
 
@@ -21,11 +21,20 @@ export class DataService {
     return this.userRegistered;
   }
 
+  setAESKey(key: string) {
+    this.key = key;
+  }
+
+  getAESKey() {
+    return this.key;
+  }
+
   setPicture(picture: any) {
-    this.picture.next(picture);
+    this.picture = picture;
   }
 
   getPicture() {
-    return this.picture.asObservable();
+    return this.picture;
   }
+
 }
