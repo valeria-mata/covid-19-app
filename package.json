@@ -22,6 +22,7 @@
     "@capacitor/android": "^2.0.1",
     "@capacitor/core": "2.0.1",
     "@ionic-native/aes-256": "^5.23.0",
+    "@ionic-native/background-mode": "^5.24.0",
     "@ionic-native/ble": "^5.23.0",
     "@ionic-native/bluetooth-le": "^5.24.0",
     "@ionic-native/camera": "^5.24.0",
@@ -38,6 +39,7 @@
     "cordova-browser": "^6.0.0",
     "cordova-ios": "5.1.1",
     "cordova-plugin-aes256-encryption": "^2.0.0",
+    "cordova-plugin-background-mode": "^0.7.3",
     "cordova-plugin-ble-central": "^1.2.4",
     "cordova-plugin-bluetooth-serial": "^0.4.7",
     "cordova-plugin-bluetoothle": "^4.5.10",
@@ -112,7 +114,8 @@
       "com.jjdltc.cordova.plugin.zip": {},
       "cordova-plugin-x-socialsharing": {
         "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
-      }
+      },
+      "cordova-plugin-background-mode": {}
     },
     "platforms": [
       "android",

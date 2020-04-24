@@ -1,8 +1,8 @@
 import { Slides } from '../models/catalogs';
 
 export const slidesInfo: Slides[] = [
-    { image:'/assets/slider/1.png', text:'<p>SENSOR C19 es una aplicación creada para obtener información de la población que ha sido diagnosticada con COVID19 y de las personas con las que tuvieron contacto en un periodo de 21 días.</p>' },
-    { image:'/assets/slider/2.png', text:'<p>Esta información será compartida con la Secretaría de Salud quien, haciendo uso de la misma, podrá tomar las medidas oportunas.</p><p>Con el uso de esta aplicación estás contribuyendo a que México esté mejor preparado para combatir esta enfermedad.</p>' },
+    { image:'/assets/slider/1.png', text:'<p>SENSOR C19 es una aplicación creada para obtener información de localización y "acercamiento" a menos de 2m entre celulares vía bluetooth.</p><p>Lo anterior permite que si una persona es diagnosticada con COVID19, se pueda informar a las autoridades o a personas cuyos celulares estuvieron a menos de 2m para que puedan tomar medidas preventivas y evitar más contagios.</p>' },
+    { image:'/assets/slider/2.png', text:'<p>Esta información será compartida con las autoridades correspondientes para que se tomen medidas que consideren oportunas.</p><p>Con el uso de esta aplicación estás contribuyendo a que estemos mejor preparados para combatir esta pandemia tomando medidas adicionales con la información que nos proporciona reduciendo su propagación.</p>' },
     { image:'/assets/slider/3.png', text:'<p>Te pediremos algunos datos personales que serán encriptados para mantener segura tu privacidad.</p><p>Así mismo te pedimos que mantengas la aplicación siempre abierta en segundo plano para que registre todos los contactos.</p>' },
     { image:'/assets/slider/4.png', text:'<p>Esperamos que muy pronto podamos regresar a nuestra vida cotidiana pero, por lo pronto, te invitamos a seguir cuidando tu salud con las medidas pertinentes.</p><p>¡Muchas gracias por contribuir a salvar vidas!</p>' }
 ]

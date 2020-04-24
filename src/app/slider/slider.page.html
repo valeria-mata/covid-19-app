@@ -6,17 +6,17 @@
           <img src = {{slide.image}} alt="">
         </div>
         <div class="text" [innerHTML]="slide.text"></div>
-        <div class="buttons">
-          <div class="left-button">
-            <div (click)="previousSlide()" *ngIf="!disablePrevBtn">Regresar</div>
-          </div>
-          <div class="right-button" >
-            <div (click)="nextSlide()" *ngIf="!disableNextBtn">Siguiente</div>
-            <ion-button class="start-button" (click)="goToHome()" *ngIf="disableNextBtn">Comenzar</ion-button>
-          </div>
-        </div>
+        
       </div>
     </ion-slide>
-
   </ion-slides>
+  <div class="buttons">
+    <div class="left-button">
+      <div (click)="previousSlide()" *ngIf="!disablePrevBtn">Regresar</div>
+    </div>
+    <div class="right-button" >
+      <div (click)="nextSlide()" *ngIf="!disableNextBtn">Siguiente</div>
+      <ion-button class="start-button" (click)="goToHome()" *ngIf="disableNextBtn">Comenzar</ion-button>
+    </div>
+  </div>
 </ion-content>

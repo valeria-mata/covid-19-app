@@ -4,7 +4,7 @@ ion-content {
 
 .form-container {
   background: transparent;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,6 +28,15 @@ ion-content {
       width: 100%;
       --color: purple;
       --placeholder-color: gray;
+      border: 0.5px solid gray;
+      border-radius: 2px;
+      margin: 2% 0;
+    }
+
+    ion-datetime {
+      width: 100%;
+      --placeholder-color: gray;
+      color: purple;
       border: 0.5px solid gray;
       border-radius: 2px;
       margin: 2% 0;

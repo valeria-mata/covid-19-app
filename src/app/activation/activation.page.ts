@@ -30,6 +30,7 @@ export class ActivationPage implements OnInit {
   userEncrypted: UserData;
   aux:  any = '';
   aux2: any = '';
+  aux3: any = '';
 
   smsCode: any = { first: '', second: '', third: '', fourth: '', fifth: '', sixth: '' };
   code = new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)]));
@@ -140,24 +141,33 @@ export class ActivationPage implements OnInit {
           this.aux2 = res2;
           this.aes256.encrypt(this.secureKey, this.secureIV, this.userPlain.email)
             .then(res3 => {
-              this.userEncrypted = {
-                name: this.aux,
-                phone: this.aux2,
-                email: res3
-              };
-              this.data.setUserData(this.userEncrypted);
-              this.sendToDatabase();
+              this.aux3 = res3;
+              this.aes256.encrypt(this.secureKey, this.secureIV, this.userPlain.birthyear)
+                .then(res4 => {
+                  this.userEncrypted = {
+                    name: this.aux,
+                    phone: this.aux2,
+                    email: this.aux3,
+                    birthyear: res4
+                };
+                alert(JSON.stringify(this.userEncrypted));
+                this.data.setUserData(this.userEncrypted);
+                this.sendToDatabase();
+                });
             });
         });
     });
+
+    
   }
 
   sendToDatabase(){
+
       this.database.insertRow(this.userEncrypted).then(data => {
-        console.log(data);
+        alert(JSON.stringify(data));
         this.router.navigate(['diagnose']);
       }, error => {
-        console.log(error);
+        alert(JSON.stringify(error));
       });
 
   }
