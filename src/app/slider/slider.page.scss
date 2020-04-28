@@ -1,29 +1,26 @@
-ion-content {
-    --background: white;
-}
+
 
 .slider {
-    height: 100vh;
+    height: 85vh;
     
     .slide-content {
         background: transparent;
-        height: 100%;
+        height: 80%;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
 
         .image {
-            height: 26%;
-            width: 100%;
+            height: 30%;
+            //width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 4%;
+            margin-bottom: 3%;
         }
 
         .text {
-            height: 20%;
             width: 90%;
             margin: 3% 0;
             display: flex;
@@ -31,43 +28,46 @@ ion-content {
             justify-content: center;
             align-items: top;
             text-align: center;
-            color: purple;
+            color: #320A63;
             //font-size: 2.2vh;
             font-size: 15px;
         }
+    }
 
-        .buttons {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            width: 80%;
-            margin: 3% 0;
+    
+}
 
-            .left-button {
-                width: 49%;
-                float: left;
-                display: flex;
-                align-items: center;
-                justify-content: left;
-                --background: transparent;
-                color: purple;
-                font-size: 12px;
-            }
 
-            .right-button {
-                width: 49%;
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                --background: transparent;
-                color: purple;
+.buttons {
+    height: 15vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    margin: 3% 10%;
+    --background: transparent;
+    color: #320A63;
+    font-size: 13px;
 
-                .start-button {
-                    --background: purple;
-                    color: white;
-                    font-size: 12px;
-                }
-            }
+    .left-button {
+        width: 49%;
+        float: left;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+    }
+
+    .right-button {
+        width: 49%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        
+
+        .start-button {
+            --background: #320A63;
+            color: white;
         }
     }
 }

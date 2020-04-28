@@ -19,6 +19,7 @@ import { File } from '@ionic-native/file/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
     BluetoothLE,
     Diagnostic,
     SocialSharing,
+    BackgroundMode,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

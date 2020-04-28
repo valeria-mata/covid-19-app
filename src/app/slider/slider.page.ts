@@ -20,8 +20,7 @@ export class SliderPage implements OnInit {
 
   @ViewChild('slides', {static: false}) ionSlides: IonSlides;
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   doCheck() {
     let prom1 = this.ionSlides.isBeginning();

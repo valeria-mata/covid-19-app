@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { AlertController } from '@ionic/angular';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { error } from 'util';
 
 declare var window: any;
 
@@ -24,40 +26,86 @@ export class DiagnosePage implements OnInit {
   serviceUUID: string = 'E20A39F4-73F5-4BC4-A12F-17D1AD07A961';
   characteristicUUID: string = '08590F7E-DB05-467E-8757-72F6FAEB13D4';
 
-  constructor(private router: Router, public alertController: AlertController, private database: DatabaseService, private data: DataService, 
+  constructor(private router: Router, public alertController: AlertController, private backgroundMode: BackgroundMode,
+              private database: DatabaseService, private data: DataService, 
               private camera: Camera, private file: File, private diagnostic: Diagnostic, private bluetooth: BluetoothLE) { }
  
   ngOnInit() {
-    const aux = {
-      "request": true,
-      "restoreKey": 'bluetoothleplugin'
-    };
-    this.bluetooth.initializePeripheral(aux).subscribe(res => {
-      alert(JSON.stringify(res));
-    })
+    /** Iniciar El periferico (SERVER) */
 
-    this.bluetooth.getAdapterInfo().then(res => {
-      
-      this.address = res.address;
-      const params = {
-        "address": this.address,
-        "service": this.serviceUUID,
-        "characteristic": this.characteristicUUID
-      };
-      alert(JSON.stringify(params));
-      this.bluetooth.subscribe(params).subscribe(subs => {
-        alert(JSON.stringify(subs));
+    const aux = {
+      request: true,
+      restoreKey: 'bluetoothleplugin'
+    };
+
+    const params = {
+      service: this.serviceUUID,
+      characteristics: [
+        {
+          uuid: this.characteristicUUID,
+          permissions: {
+            read: true,
+            write: true,
+          },
+          properties: {
+            read: true, 
+            writeWhithoutResponse: true,
+            write: true,
+            notify: true,
+            indicate: true 
+          }
+        }
+      ]
+    };
+
+    const ini = {
+      services: [this.characteristicUUID],
+      service: this.characteristicUUID,
+      name: 'Hola',
+      includeDeviceName: false,
+      includeTxPowerLevel: false,
+    };
+
+    this.bluetooth.initializePeripheral(aux).subscribe(res => {
+      this.bluetooth.addService(params).then(data => {
+          alert(JSON.stringify(data));
+          this.bluetooth.startAdvertising(ini).then(ress => {
+            alert(JSON.stringify(ress));
+            this.bluetooth.isAdvertising().then(sol => {
+              alert(JSON.stringify(sol));
+            });
+          }, err => {
+            alert(JSON.stringify(err));
+          });
       }, error => {
         alert(JSON.stringify(error));
       });
     });
+
+    /** Inciar la Central (CLIENTE) */
+
+    const paramasAux = {
+      request: true,
+      //statusReceiver: false,
+      //estoreKey: "bluetoothleplugin"
+    }; 
+
+    this.bluetooth.initialize(paramasAux).subscribe(result => {
+      this.bluetooth.requestPermission().then(r1 => {
+        this.bluetooth.requestLocation().then(r2 => {
+          this.bluetooth.enable();
+          alert(JSON.stringify(result));
+        })
+      });
+    }, error => {
+      alert(JSON.stringify(error));
+    });
   }
 
-  async presentAlert() {
+  async presentAlert(header, msg) {
     const alert = await this.alertController.create({
-      header: 'Alert',
-      subHeader: 'Subtitle',
-      message: 'This is an alert message.',
+      header: header,
+      message: msg,
       buttons: ['OK']
     });
 
@@ -83,6 +131,12 @@ export class DiagnosePage implements OnInit {
      // Handle error
     });
   }
+
+
+
+
+
+
 
   takePicture() {
     this.database.selectAll().then( data => {
@@ -127,7 +181,32 @@ export class DiagnosePage implements OnInit {
   } 
 
   scan(){
-    // this.diagnostic.switchToLocationSettings();
+    const device = [];
+    const busqueda = {
+      services: [
+        this.serviceUUID
+      ],
+      allowDuplicate: true,
+      scanMode: this.bluetooth.SCAN_MODE_LOW_LATENCY,
+      matchMode: this.bluetooth.MATCH_MODE_AGGRESSIVE,
+      matchNum: this.bluetooth.MATCH_NUM_MAX_ADVERTISEMENT,
+      callbackType: this.bluetooth.CALLBACK_TYPE_ALL_MATCHES
+    };
+
+    this.bluetooth.startScan({services: []}).subscribe(data => {
+      alert(JSON.stringify(data));
+      if(data.status === 'scanResult')
+        device.push(data);
+    });
+
+    setTimeout(() => {
+      this.bluetooth.stopScan().then(res => {
+        alert(JSON.stringify(device));
+      })
+    }, 30000);
+
+
+    /*this.diagnostic.switchToLocationSettings();
     
     
     this.diagnostic.isLocationAuthorized().then(aut => {
@@ -150,7 +229,7 @@ export class DiagnosePage implements OnInit {
       alert(JSON.stringify(res));
     })
 
-    /*this.bluetooth.startScan(params).subscribe(res => {
+    this.bluetooth.startScan(params).subscribe(res => {
       if(res.status === 'scanResult') {
         device.push(res);
       }

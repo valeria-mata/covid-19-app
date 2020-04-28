@@ -27,6 +27,7 @@ export class HomePage {
       phone: ['', Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern('^[\\d]{10}$')])],
       email: ['', Validators.compose([Validators.maxLength(70), Validators.required,
         Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$')])],
+      year: ['', Validators.compose([Validators.required])],
       accept: [true, Validators.compose([Validators.requiredTrue])],
     });
 
@@ -50,10 +51,11 @@ export class HomePage {
 
   sendInformation() {
     
-   this.userPlain = {
+    this.userPlain = {
       name : this.userRegistration.controls.name.value,
       phone : this.userRegistration.controls.phone.value,
-      email : this.userRegistration.controls.email.value 
+      email : this.userRegistration.controls.email.value,
+      birthyear: this.userRegistration.controls.year.value 
     };
 
     this.data.setUserData(this.userPlain);

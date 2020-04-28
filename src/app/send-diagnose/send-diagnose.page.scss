@@ -1,6 +1,6 @@
 ion-toolbar {
     --background: white;
-    color: purple;
+    color: #320A63;
 }
 
 ion-content {
@@ -23,7 +23,7 @@ ion-content {
         margin: 4% 0;
 
         img {
-            border: solid purple;
+            border: solid #320A63;
             border-radius: 10px;
             width: 40%;
         }
@@ -31,7 +31,7 @@ ion-content {
 
     .text {
         width: 85vw;
-        color: purple;
+        color: #320A63;
         text-align: left;
 
         .title {
@@ -44,7 +44,7 @@ ion-content {
     .button-purple {
         width: 85vw;
         margin: 5% 0;
-        --background: purple;
+        --background: #320A63;
         color: white;
     }
 }
