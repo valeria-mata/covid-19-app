@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="diagnose-container">
+  <div class="activation-container">
     <div class="text">
       <p class="title">Antes de continuar...</p>
       <p>
@@ -16,21 +16,11 @@
       </p>
     </div>
     <div class="inputs">
-      <!--<ion-input only-numbers maxlength="6" [(ngModel)]="code" class="code-input"></ion-input>-->
-      <ion-input only-numbers class="small-input" #field1 type="tel" [(ngModel)]="smsCode.first" maxlength="1"
-        (keyup)="eventIonChange(2, 1, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
-      <ion-input only-numbers class="small-input" #field2 type="tel" [(ngModel)]="smsCode.second" maxlength="1"
-        (keyup)="eventIonChange(3, 1, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
-      <ion-input only-numbers class="small-input" #field3 type="tel" [(ngModel)]="smsCode.third" maxlength="1"
-        (keyup)="eventIonChange(4, 2, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
-      <ion-input only-numbers class="small-input" #field4 type="tel" [(ngModel)]="smsCode.fourth" maxlength="1"
-        (keyup)="eventIonChange(5, 3, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
-      <ion-input only-numbers class="small-input" #field5 type="tel" [(ngModel)]="smsCode.fifth" maxlength="1"
-        (keyup)="eventIonChange(6, 4, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
-      <ion-input only-numbers class="small-input" #field6 type="tel" [(ngModel)]="smsCode.sixth" maxlength="1"
-        (keyup)="eventIonChange(6, 5, $event)" (ionChange)="generateCode()" clearOnEdit="true"></ion-input>
+      <form [formGroup]="userValidation">
+        <ion-input formControlName="code" type="number" maxlength="6" placeholder="Código de verificación"></ion-input>
+      </form>
     </div>
-    <ion-button class="button-purple" expand="block" (click)="encryptData()" [disabled]="!code.valid">Verificar</ion-button>
+    <ion-button class="button-purple" expand="block" (click)="validateActivationCode()" [disabled]="!userValidation.valid">Verificar</ion-button>
     <div class="button-white" (click)="sendAgain()">Enviar un código nuevo</div>
   </div>
 </ion-content>

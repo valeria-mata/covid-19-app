@@ -51,7 +51,7 @@ export class HomePage {
 
   sendInformation() {
     
-  this.userPlain = {
+    this.userPlain = {
       name : this.userRegistration.controls.name.value,
       phone : this.userRegistration.controls.phone.value,
       email : this.userRegistration.controls.email.value,

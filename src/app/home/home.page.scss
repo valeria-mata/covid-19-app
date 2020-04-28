@@ -1,10 +1,6 @@
-ion-content {
-  --background: white;
-}
-
 .form-container {
   background: transparent;
-  height: 100%;
+  height: -webkit-fill-available;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,8 +21,9 @@ ion-content {
     width: 85%;
 
     ion-input {
+      --background: #F1F1F1;
       width: 100%;
-      --color: purple;
+      --color: #320A63;
       --placeholder-color: gray;
       border: 0.5px solid gray;
       border-radius: 2px;
@@ -34,9 +31,10 @@ ion-content {
     }
 
     ion-datetime {
+      background: #F1F1F1;
       width: 100%;
       --placeholder-color: gray;
-      color: purple;
+      color: #320A63;
       border: 0.5px solid gray;
       border-radius: 2px;
       margin: 2% 0;
@@ -46,9 +44,9 @@ ion-content {
       margin: 3% 0;
       ion-checkbox {
         --background: transparent;
-        --border-color: purple;
-        --background-checked: purple;
-        --border-color-checked: purple;
+        --border-color: #320A63;
+        --background-checked: #320A63;
+        --border-color-checked: #320A63;
       }
       ion-label {
         padding-left: 2%;
@@ -59,7 +57,7 @@ ion-content {
     .button-purple {
       width: 100%;
       margin: 4% 0;
-      --background: purple;
+      --background: #320A63;
       color: white;
       align-self: center;
     }

@@ -1,23 +1,14 @@
-ion-toolbar {
-    --background: white;
-    color: purple;
-}
-
-ion-content {
-    --background: white;
-  }
-  
-  .diagnose-container {
+.activation-container {
     background: transparent;
-    height: 100vh;
+    height: -webkit-fill-available;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
 
     .text {
         width: 85vw;
-        color: purple;
+        color: #320A63;
         text-align: justify;
         font-size: 2.2vh;
 
@@ -29,45 +20,33 @@ ion-content {
     }
 
     .inputs {
-        width: 85vw;
+        width: 90vw;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
 
-        ion-list {
-            padding-left: 0px;
+        form {
+            width: 85vw;
             display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        } 
+            justify-content: center;
+            align-items: center;
 
-        .code-input {
-            background: white;
-            border: 1px solid purple;
-            border-radius: 5px;
-            font-size: 20px !important;
-            text-align: center;
-            color: purple; 
-        }
-
-        .small-input {
-            background: white;
-            border: 1px solid purple;
-            border-radius: 5px;
-            font-size: 2.5vh !important;
-            text-align: center;
-            margin: 5px !important;
-            height: 7vh;
-            color: purple;
+            ion-input {
+                --background: #F1F1F1;
+                --color: #320A63;
+                --placeholder-color: gray;
+                border: 0.5px solid gray;
+                border-radius: 2px;
+                margin: 2% 0;
+            }
         }
     }
 
     .button-purple {
         width: 85vw;
         margin: 3% 0;
-        --background: purple;
+        --background: #320A63;
         color: white;
     }
 
@@ -75,7 +54,7 @@ ion-content {
         width: 85vw;
         margin: 6% 0;
         --background: white;
-        color: purple;
+        color: #320A63;
         text-align: center;
         font-weight: bold;
     }

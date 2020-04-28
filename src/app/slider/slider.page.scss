@@ -1,6 +1,4 @@
-ion-content {
-    --background: white;
-}
+
 
 .slider {
     height: 85vh;
@@ -19,7 +17,7 @@ ion-content {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 4%;
+            margin-bottom: 3%;
         }
 
         .text {
@@ -30,7 +28,7 @@ ion-content {
             justify-content: center;
             align-items: top;
             text-align: center;
-            color: purple;
+            color: #320A63;
             //font-size: 2.2vh;
             font-size: 15px;
         }
@@ -48,6 +46,9 @@ ion-content {
     justify-content: center;
     width: 80%;
     margin: 3% 10%;
+    --background: transparent;
+    color: #320A63;
+    font-size: 13px;
 
     .left-button {
         width: 49%;
@@ -55,9 +56,6 @@ ion-content {
         display: flex;
         align-items: center;
         justify-content: left;
-        --background: transparent;
-        color: purple;
-        font-size: 13px;
     }
 
     .right-button {
@@ -65,14 +63,11 @@ ion-content {
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        --background: transparent;
-        color: purple;
-        font-size: 13px;
+        
 
         .start-button {
-            --background: purple;
+            --background: #320A63;
             color: white;
-            font-size: 13px;
         }
     }
 }

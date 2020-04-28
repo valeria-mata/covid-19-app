@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { UserData } from '../models/user';
@@ -16,13 +16,7 @@ import { DatabaseService } from '../services/database.service';
 
 export class ActivationPage implements OnInit {
 
-  @ViewChild('field1', { static: false }) field1;
-  @ViewChild('field2', { static: false }) field2;
-  @ViewChild('field3', { static: false }) field3;
-  @ViewChild('field4', { static: false }) field4;
-  @ViewChild('field5', { static: false }) field5;
-  @ViewChild('field6', { static: false }) field6;
-
+  userValidation: FormGroup;
   private keyIV: string = 'EstaEsMik3Yasjcis383ksqwertyuiop';
   private secureKey: string;
   private secureIV: string;
@@ -32,61 +26,18 @@ export class ActivationPage implements OnInit {
   aux2: any = '';
   aux3: any = '';
 
-  smsCode: any = { first: '', second: '', third: '', fourth: '', fifth: '', sixth: '' };
-  code = new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)]));
-
-  constructor(private router: Router, public alertController: AlertController, private aes256: AES256, 
+  constructor(private fb: FormBuilder, private router: Router, public alertController: AlertController, private aes256: AES256, 
               private data: DataService, private activation: ActivationService, private database: DatabaseService) {
+            
+      this.userValidation = this.fb.group({
+        code: ['', Validators.compose([Validators.required, Validators.maxLength(6), Validators.pattern('^[\\d]{6}$')])],
+      });
+
       this.generateSecureKeyAndIV();
   }
 
   ngOnInit() {
     this.userPlain = this.data.getUserData();
-  }
-
-  generateCode() {
-   this.code.setValue(`${this.smsCode.first}${this.smsCode.second}${this.smsCode.third}${this.smsCode.fourth}${this.smsCode.fifth}${this.smsCode.sixth}`);
-  }
-
-  eventIonChange(next, before, event) {
-    const valueInput = event.target.value;
-    if (valueInput === '') {
-      switch (before) {
-        case 1:
-          this.field1.setFocus();
-          break;
-        case 2:
-          this.field2.setFocus();
-          break;
-        case 3:
-          this.field3.setFocus();
-          break;
-        case 4:
-          this.field4.setFocus();
-          break;
-        case 5:
-          this.field4.setFocus();
-          break;
-      }
-    } else {
-      switch (next) {
-        case 2:
-          this.field2.setFocus();
-          break;
-        case 3:
-          this.field3.setFocus();
-          break;
-        case 4:
-          this.field4.setFocus();
-          break;
-        case 5:
-          this.field5.setFocus();
-          break;
-        case 6:
-          this.field6.setFocus();
-          break;
-      }
-    }
   }
 
   async presentAlert(header, msg) {
@@ -113,7 +64,7 @@ export class ActivationPage implements OnInit {
 
   validateActivationCode() {
 
-    this.activation.activateUser(this.userPlain.email, this.userPlain.phone, this.code.value).subscribe(res => {
+    this.activation.activateUser(this.userPlain.email, this.userPlain.phone, this.userValidation.controls.code.value).subscribe(res => {
       console.log(res);
       if(res.code === 0) {
         this.encryptData();
