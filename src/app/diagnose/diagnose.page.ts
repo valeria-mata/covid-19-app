@@ -59,8 +59,8 @@ export class DiagnosePage implements OnInit {
     };
 
     const ini = {
-      services: [this.serviceUUID],
-      service: this.serviceUUID,
+      services: [this.characteristicUUID],
+      service: this.characteristicUUID,
       name: 'Hola',
       includeDeviceName: false,
       includeTxPowerLevel: false,
