@@ -57,7 +57,6 @@ export class ActivationPage implements OnInit {
     for(let i = 0; i < 16; i++){
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    this.data.setAESKey(result);
     this.secureKey = await this.aes256.generateSecureKey(this.keyIV); // Returns a 32 bytes string
     this.secureIV = await this.aes256.generateSecureIV(result); // Returns a 16 bytes string
   }
