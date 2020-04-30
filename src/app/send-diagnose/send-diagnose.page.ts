@@ -4,6 +4,7 @@ import { File } from '@ionic-native/file/ngx';
 import { DataService } from '../services/data.service';
 import { Router } from '@angular/router';
 import { AES256 } from '@ionic-native/aes-256/ngx';
+import { ZipService } from '../services/zip.service';
 import * as JSZip from 'jszip';
 
 @Component({
@@ -20,7 +21,7 @@ export class SendDiagnosePage implements OnInit {
   users: any;
   texto: any = '';
 
-  constructor(private router: Router, private database: DatabaseService, private data: DataService, 
+  constructor(private router: Router, private database: DatabaseService, private data: DataService, private zipserv: ZipService,
               private file: File, private aes256: AES256) { 
                 this.generateSecureKeyAndIV();
   }
