@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpErrorResponse, HttpClient } from '@angular/common/http';
-import { throwError, Observable } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { sendEmail, validateCode } from '../constants/endpoints';
-import { userActivation, UserData } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -34,4 +32,6 @@ export class ActivationService {
     }
     return this.http.post<any>(validateCode, body, {headers: this.httpOptions.headers});
   }
+
+
 }

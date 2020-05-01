@@ -3,7 +3,10 @@ import { DatabaseService } from '../services/database.service';
 import { File } from '@ionic-native/file/ngx';
 import { DataService } from '../services/data.service';
 import { Router } from '@angular/router';
+import { AES256 } from '@ionic-native/aes-256/ngx';
+import { ZipService } from '../services/zip.service';
 import * as JSZip from 'jszip';
+import * as cryptico from 'cryptico';
 
 @Component({
   selector: 'app-send-diagnose',
@@ -12,12 +15,21 @@ import * as JSZip from 'jszip';
 })
 export class SendDiagnosePage implements OnInit {
 
+  private secureKey: string;
+  private secureIV: string;
+  private encryptedKey: string;
+  private encryptedIV: string;
+  zipEncrypted: any;
   image: any;
   users: any;
   texto: any = '';
-  zipFile: any;
 
-  constructor(private router: Router, private database: DatabaseService, private data: DataService, private file: File) { 
+  private privateKey = '../../assets/keys/private.pem';
+  private publicKey = '../../assets/keys/public-ios.pem';
+
+  constructor(private router: Router, private database: DatabaseService, private data: DataService, private zipserv: ZipService,
+              private file: File, private aes256: AES256) { 
+                this.generateSecureKeyAndIV();
   }
 
   ngOnInit() {
@@ -26,9 +38,9 @@ export class SendDiagnosePage implements OnInit {
 
   sendInfo() {
 
-    //this.generateTxt();
+    this.generateTxt();
 
-    this.router.navigate(['share']);
+    //this.router.navigate(['share']);
 
   }
 
@@ -41,8 +53,8 @@ export class SendDiagnosePage implements OnInit {
         this.createFile(txt);
       }
       this.users = JSON.stringify(this.database.getUsers());
-      this.readFile();
-      //this.generateZip(this.file.dataDirectory, this.image);
+      //this.readFile();
+      this.generateZip(this.file.dataDirectory + 'data.txt', this.image);
     }).catch(err => {
       this.database.setError(err);
     });
@@ -64,41 +76,54 @@ export class SendDiagnosePage implements OnInit {
   }
 
   readFile() {
-    /*this.file.readAsDataURL(this.file.dataDirectory, 'data.txt')
-      .then((data) => { 
-        alert(data);
-      });*/
-
     this.file.readAsText(this.file.dataDirectory, 'data.txt').then((data) => {
-      //alert(data);
-      this.generateZip(this.file.dataDirectory, this.image);
+      alert(data);
+      this.generateZip(this.file.dataDirectory + 'data.txt', this.image);
     });
   }
-
 
   generateZip(txt, img){
     const zip = new JSZip();
     const folder = zip.folder('data');
-    let blobPromise = fetch(txt).then(r => {
-      if(r.status === 200) return r.blob() 
-      alert((r));
-        return Promise.reject(new Error(r.statusText))
+    folder.file(txt);
+    folder.file(img);
+
+    zip.generateAsync({type: "uint8array"}).then(function (u8) {
+      alert('zip generated');
+      alert(JSON.stringify(u8));
+      this.encryptZip(u8);
+    }, err => {
+      alert(err);
     });
-    folder.file('data.txt', blobPromise);
+  }
 
-    let blobPromise2 = fetch(img).then(r2 => {
-      alert((r2));
-      if(r2.status === 200) return r2.blob()
-      return Promise.reject(new Error(r2.statusText))
-    })
-    folder.file('diagnose.jpg', blobPromise2);
+  async generateSecureKeyAndIV() {
+    let resultIV = '';
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for(let i = 0; i < 16; i++){
+      resultIV += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    for(let i = 0; i < 32; i++){
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    this.secureKey = await this.aes256.generateSecureKey(result); // Returns a 32 bytes string
+    this.secureIV = await this.aes256.generateSecureIV(resultIV); // Returns a 16 bytes string
+  }
 
-    zip.generateAsync({type:"blob"}).then(blob => {
-      this.zipFile = blob;
-      alert(JSON.stringify('zip' + blob));
-    }).catch(e =>
-       alert(JSON.stringify('error'+ e))
-      );
+  encryptZipAndKeys(zip){
+    this.aes256.encrypt(this.secureKey, this.secureIV, zip).then(res => {
+      alert(res);  
+      this.zipEncrypted = res;
+      
+      alert(this.secureKey);
+      this.encryptedKey = cryptico.encrypt(this.secureKey, this.publicKey);
+      alert(this.encryptedKey);
+    });
+
+    
+
   }
 
 }
