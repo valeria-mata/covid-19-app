@@ -49,6 +49,7 @@
     "cordova-zip-plugin": "^2.0.0",
     "cordova.plugins.diagnostic": "^5.0.1",
     "core-js": "^2.5.4",
+    "cryptico": "^1.0.2",
     "es6-promise-plugin": "^4.2.2",
     "jszip": "^3.4.0",
     "rxjs": "~6.5.1",

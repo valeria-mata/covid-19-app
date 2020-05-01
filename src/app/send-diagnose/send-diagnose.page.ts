@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { ZipService } from '../services/zip.service';
 import * as JSZip from 'jszip';
+import * as cryptico from 'cryptico';
 
 @Component({
   selector: 'app-send-diagnose',
@@ -16,10 +17,15 @@ export class SendDiagnosePage implements OnInit {
 
   private secureKey: string;
   private secureIV: string;
+  private encryptedKey: string;
+  private encryptedIV: string;
   zipEncrypted: any;
   image: any;
   users: any;
   texto: any = '';
+
+  private privateKey = '../../assets/keys/private.pem';
+  private publicKey = '../../assets/keys/public-ios.pem';
 
   constructor(private router: Router, private database: DatabaseService, private data: DataService, private zipserv: ZipService,
               private file: File, private aes256: AES256) { 
@@ -108,8 +114,15 @@ export class SendDiagnosePage implements OnInit {
 
   encryptZipAndKeys(zip){
     this.aes256.encrypt(this.secureKey, this.secureIV, zip).then(res => {
-        this.zipEncrypted = res;
+      alert(res);  
+      this.zipEncrypted = res;
+      
+      alert(this.secureKey);
+      this.encryptedKey = cryptico.encrypt(this.secureKey, this.publicKey);
+      alert(this.encryptedKey);
     });
+
+    
 
   }
 
