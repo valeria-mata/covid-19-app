@@ -25,6 +25,7 @@ export class ActivationPage implements OnInit {
   aux:  any = '';
   aux2: any = '';
   aux3: any = '';
+  
 
   constructor(private fb: FormBuilder, private router: Router, public alertController: AlertController, private aes256: AES256, 
               private data: DataService, private activation: ActivationService, private database: DatabaseService) {
@@ -64,19 +65,16 @@ export class ActivationPage implements OnInit {
   validateActivationCode() {
 
     this.activation.activateUser(this.userPlain.email, this.userPlain.phone, this.userValidation.controls.code.value).subscribe(res => {
-      console.log(res);
       if(res.code === 0) {
         this.encryptData();
       } else if(res.code === 1) {
         const header = 'Código incorrecto';
         const msg = 'Inténtalo nuevamente';
         this.presentAlert(header, msg);
-        console.log('Código incorrecto');
       } else {
         const header = 'Código caducado';
         const msg = 'Ingresa nuevamente tus datos para volver a recibir un código';
         this.presentAlert(header, msg);
-        console.log('Código expirado');
         this.sendAgain();
       }
     }); 
@@ -91,19 +89,15 @@ export class ActivationPage implements OnInit {
           this.aux2 = res2;
           this.aes256.encrypt(this.secureKey, this.secureIV, this.userPlain.email)
             .then(res3 => {
-              this.aux3 = res3;
-              this.aes256.encrypt(this.secureKey, this.secureIV, this.userPlain.birthyear)
-                .then(res4 => {
-                  this.userEncrypted = {
-                    name: this.aux,
-                    phone: this.aux2,
-                    email: this.aux3,
-                    birthyear: res4
-                };
-                alert(JSON.stringify(this.userEncrypted));
-                this.data.setUserData(this.userEncrypted);
-                this.sendToDatabase();
-                });
+              this.userEncrypted = {
+                name: this.aux,
+                phone: this.aux2,
+                email: res3,
+                birthyear: this.userPlain.birthyear,
+                registrationDate: this.userPlain.registrationDate
+              };
+              this.data.setUserData(this.userEncrypted);
+              this.sendToDatabase();
             });
         });
     });
@@ -114,7 +108,6 @@ export class ActivationPage implements OnInit {
   sendToDatabase(){
 
       this.database.insertRow(this.userEncrypted).then(data => {
-        alert(JSON.stringify(data));
         this.router.navigate(['diagnose']);
       }, error => {
         alert(JSON.stringify(error));

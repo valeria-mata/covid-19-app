@@ -5,7 +5,16 @@
     </div>
     <form [formGroup]="userRegistration">
       <ion-input formControlName="name" type="text" maxlength="70" placeholder="Nombre Completo"></ion-input>
-      <ion-input formControlName="phone" type="tel" maxlength="10" placeholder="Teléfono celular"></ion-input>
+      <div class="phone">
+        <ion-select class="select-code" formControlName="intCode" placeholder="+00">
+          <ion-select-option value="+57" default>+57</ion-select-option>
+          <ion-select-option value="+56">+56</ion-select-option>
+          <ion-select-option value="+52">+52</ion-select-option>
+          <ion-select-option value="+1">+1</ion-select-option>
+        </ion-select>
+        <ion-input class="input-phone" formControlName="phone" type="tel" maxlength="10" placeholder="Teléfono celular"></ion-input>
+      </div>
+      
       <ion-input formControlName="email" type="email" maxlength="70" placeholder="Correo Electónico"></ion-input>
       <ion-datetime formControlName="year" placeholder="Año de nacimiento" displayFormat="YYYY" min="1900" max="2020"></ion-datetime>
       <div class="checkbox-container">

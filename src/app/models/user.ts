@@ -3,6 +3,7 @@ export interface UserData {
     phone: string;
     email: string;
     birthyear: string;
+    registrationDate: Date;
 }
 
 export interface userActivation {

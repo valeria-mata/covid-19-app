@@ -16,7 +16,6 @@ export class HomePage {
 
   userRegistration: FormGroup;
   userPlain: UserData;
-
   aux : any = '';
 
   constructor(private fb: FormBuilder, public router: Router, public alertController: AlertController,
@@ -24,6 +23,7 @@ export class HomePage {
 
     this.userRegistration = this.fb.group({
       name: ['', Validators.compose([Validators.required])],
+      intCode: ['', Validators.compose([Validators.required])],
       phone: ['', Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern('^[\\d]{10}$')])],
       email: ['', Validators.compose([Validators.maxLength(70), Validators.required,
         Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$')])],
@@ -50,17 +50,19 @@ export class HomePage {
   }
 
   sendInformation() {
-    
     this.userPlain = {
       name : this.userRegistration.controls.name.value,
-      phone : this.userRegistration.controls.phone.value,
+      phone: `${this.userRegistration.controls.intCode.value}${this.userRegistration.controls.phone.value}`,
+      //phone : this.userRegistration.controls.phone.value,
       email : this.userRegistration.controls.email.value,
-      birthyear: this.userRegistration.controls.year.value 
+      birthyear: this.userRegistration.controls.year.value.substr(0,4),
+      registrationDate: new Date() 
     };
 
     this.data.setUserData(this.userPlain);
 
-    this.activation.sendEmail(this.userRegistration.controls.email.value, this.userRegistration.controls.phone.value).subscribe(res => {   
+    this.activation.sendEmail(this.userRegistration.controls.email.value, this.userPlain.phone).subscribe(res => { 
+      console.log(this.userPlain.phone);
       this.router.navigate(['activation']);
     }, error => {
       console.log(error);
