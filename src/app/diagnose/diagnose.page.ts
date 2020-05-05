@@ -84,7 +84,7 @@ export class DiagnosePage implements OnInit {
       phone: this.user.phone,
       email: this.user.email,
       birthyear: this.user.birthyear,
-      registrationDate: fecha
+      regdate: fecha
     };
 
     this.database.insertRow(testing);

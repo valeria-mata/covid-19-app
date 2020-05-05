@@ -48,14 +48,11 @@ export class SendDiagnosePage implements OnInit {
     this.database.selectAll().then( data => {
       this.database.setUsers(data);
       for(let i = 0; i < data.length; i++){
-        const txt = `${data[i].name},${data[i].phone},${data[i].email}\n`;
-        this.texto = txt;
+        const txt = `${data[i].name},${data[i].phone},${data[i].email},${data[i].birthyear},${data[i].regdate}\n`;
         this.createFile(txt);
       }
-      /*Leer usuarios almacenados en la base de datos.*/ 
-      this.users = JSON.stringify(this.database.getUsers());
-      //this.readFile();
-      this.generateZip(this.file.dataDirectory + 'data.txt', this.image);
+      this.readFile();
+      //this.generateZip(this.file.dataDirectory + 'data.txt', this.image);
     }).catch(err => {
       this.database.setError(err);
     });
@@ -80,7 +77,16 @@ export class SendDiagnosePage implements OnInit {
     /* Función de prueba para revisar txt generado */
     this.file.readAsText(this.file.dataDirectory, 'data.txt').then((data) => {
       alert('TXT GENERADO: '+ data);
-      this.generateZip(this.file.dataDirectory + 'data.txt', this.image);
+      const text = `${this.file.dataDirectory}data.txt`;
+      const img = this.image;
+      const content = {
+        text,
+        img
+      }
+      alert(JSON.stringify(content));
+      this.zipserv.generateZip('data',content);
+
+      //this.generateZip(this.file.dataDirectory + 'data.txt', this.image);
     });
   }
 
