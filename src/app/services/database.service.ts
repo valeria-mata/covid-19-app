@@ -39,7 +39,7 @@ export class DatabaseService {
   }
 
   createTable(dbase: SQLiteObject){
-    let sql = 'CREATE TABLE IF NOT EXISTS userInformation (name TEXT, phone TEXT, email TEXT, birthyear TEXT)';
+    let sql = 'CREATE TABLE IF NOT EXISTS userInformation (name TEXT, phone TEXT, email TEXT, birthyear TEXT, regdate TEXT)';
     return this.porter.importSqlToDb(dbase, sql);
   }
 
@@ -55,7 +55,7 @@ export class DatabaseService {
   }
 
   insertRow(user: UserData){
-    let sql = 'INSERT INTO userInformation(name, phone, email, birthyear) VALUES(?, ?, ?, ?)';
+    let sql = 'INSERT INTO userInformation(name, phone, email, birthyear, regdate) VALUES(?, ?, ?, ?, ?)';
     return this.db.executeSql(sql, [user.name, user.phone, user.email, user.birthyear]);
   }
 

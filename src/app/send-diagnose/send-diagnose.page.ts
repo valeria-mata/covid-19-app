@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { ZipService } from '../services/zip.service';
 import * as JSZip from 'jszip';
-import * as cryptico from 'cryptico';
+//import * as cryptico from 'cryptico';
 
 @Component({
   selector: 'app-send-diagnose',
@@ -52,6 +52,7 @@ export class SendDiagnosePage implements OnInit {
         this.texto = txt;
         this.createFile(txt);
       }
+      /*Leer usuarios almacenados en la base de datos.*/ 
       this.users = JSON.stringify(this.database.getUsers());
       //this.readFile();
       this.generateZip(this.file.dataDirectory + 'data.txt', this.image);
@@ -76,8 +77,9 @@ export class SendDiagnosePage implements OnInit {
   }
 
   readFile() {
+    /* Función de prueba para revisar txt generado */
     this.file.readAsText(this.file.dataDirectory, 'data.txt').then((data) => {
-      alert(data);
+      alert('TXT GENERADO: '+ data);
       this.generateZip(this.file.dataDirectory + 'data.txt', this.image);
     });
   }
@@ -89,9 +91,7 @@ export class SendDiagnosePage implements OnInit {
     folder.file(img);
 
     zip.generateAsync({type: "uint8array"}).then(function (u8) {
-      alert('zip generated');
-      alert(JSON.stringify(u8));
-      this.encryptZip(u8);
+      this.encryptZipAndKeys(u8);
     }, err => {
       alert(err);
     });
@@ -114,12 +114,12 @@ export class SendDiagnosePage implements OnInit {
 
   encryptZipAndKeys(zip){
     this.aes256.encrypt(this.secureKey, this.secureIV, zip).then(res => {
-      alert(res);  
+      alert('ZIP ENCRIPTADO'+ res);  
       this.zipEncrypted = res;
       
-      alert(this.secureKey);
-      this.encryptedKey = cryptico.encrypt(this.secureKey, this.publicKey);
-      alert(this.encryptedKey);
+      alert('LLAVE AES: '+ this.secureKey);
+     // this.encryptedKey = cryptico.encrypt(this.secureKey, this.publicKey);
+     // alert(this.encryptedKey);
     });
 
     

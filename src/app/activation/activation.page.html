@@ -17,7 +17,7 @@
     </div>
     <div class="inputs">
       <form [formGroup]="userValidation">
-        <ion-input formControlName="code" type="number" maxlength="6" placeholder="Código de verificación"></ion-input>
+        <ion-input formControlName="code" type="tel" maxlength="6" placeholder="Código de verificación"></ion-input>
       </form>
     </div>
     <ion-button class="button-purple" expand="block" (click)="validateActivationCode()" [disabled]="!userValidation.valid">Verificar</ion-button>
