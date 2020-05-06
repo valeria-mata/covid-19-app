@@ -53,10 +53,9 @@ export class HomePage {
     this.userPlain = {
       name : this.userRegistration.controls.name.value,
       phone: `${this.userRegistration.controls.intCode.value}${this.userRegistration.controls.phone.value}`,
-      //phone : this.userRegistration.controls.phone.value,
       email : this.userRegistration.controls.email.value,
       birthyear: this.userRegistration.controls.year.value.substr(0,4),
-      registrationDate: new Date() 
+      regdate: new Date() 
     };
 
     this.data.setUserData(this.userPlain);

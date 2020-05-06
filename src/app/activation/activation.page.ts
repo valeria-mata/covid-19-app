@@ -24,7 +24,6 @@ export class ActivationPage implements OnInit {
   userEncrypted: UserData;
   aux:  any = '';
   aux2: any = '';
-  aux3: any = '';
   
 
   constructor(private fb: FormBuilder, private router: Router, public alertController: AlertController, private aes256: AES256, 
@@ -94,7 +93,7 @@ export class ActivationPage implements OnInit {
                 phone: this.aux2,
                 email: res3,
                 birthyear: this.userPlain.birthyear,
-                registrationDate: this.userPlain.registrationDate
+                regdate: this.userPlain.regdate
               };
               this.data.setUserData(this.userEncrypted);
               this.sendToDatabase();

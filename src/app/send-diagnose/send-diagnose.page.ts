@@ -5,8 +5,9 @@ import { DataService } from '../services/data.service';
 import { Router } from '@angular/router';
 import { AES256 } from '@ionic-native/aes-256/ngx';
 import { ZipService } from '../services/zip.service';
-import * as JSZip from 'jszip';
-//import * as cryptico from 'cryptico';
+import { Crypt } from 'hybrid-crypto-js';
+import { HttpClient } from '@angular/common/http';
+import { UploadService } from '../services/upload.service';
 
 @Component({
   selector: 'app-send-diagnose',
@@ -20,15 +21,14 @@ export class SendDiagnosePage implements OnInit {
   private encryptedKey: string;
   private encryptedIV: string;
   zipEncrypted: any;
+  finalZip: any;
   image: any;
-  users: any;
-  texto: any = '';
 
   private privateKey = '../../assets/keys/private.pem';
   private publicKey = '../../assets/keys/public-ios.pem';
 
-  constructor(private router: Router, private database: DatabaseService, private data: DataService, private zipserv: ZipService,
-              private file: File, private aes256: AES256) { 
+  constructor(private router: Router, private file: File, private aes256: AES256, private http: HttpClient,
+              private database: DatabaseService, private data: DataService, private zipserv: ZipService, private upload: UploadService) { 
                 this.generateSecureKeyAndIV();
   }
 
@@ -36,26 +36,25 @@ export class SendDiagnosePage implements OnInit {
     this.image = this.data.getPicture();
   }
 
-  sendInfo() {
-
-    this.generateTxt();
-
-    //this.router.navigate(['share']);
-
-  }
-
   generateTxt() {
     this.database.selectAll().then( data => {
       this.database.setUsers(data);
       for(let i = 0; i < data.length; i++){
-        const txt = `${data[i].name},${data[i].phone},${data[i].email}\n`;
-        this.texto = txt;
+        const txt = `${data[i].name},${data[i].phone},${data[i].email},${data[i].birthyear},${data[i].regdate}\n`;
         this.createFile(txt);
       }
-      /*Leer usuarios almacenados en la base de datos.*/ 
-      this.users = JSON.stringify(this.database.getUsers());
       //this.readFile();
-      this.generateZip(this.file.dataDirectory + 'data.txt', this.image);
+
+      const text = `${this.file.dataDirectory}data.txt`;
+      const img = this.image;
+      const content = [];
+      content.push(text);
+      content.push(img);
+      this.zipserv.generateZip('data', content).then(res => {
+        this.encryptZipAndKeys(res);
+      }, err => {
+        console.log(err);
+      });
     }).catch(err => {
       this.database.setError(err);
     });
@@ -76,27 +75,6 @@ export class SendDiagnosePage implements OnInit {
     this.file.writeFile(this.file.dataDirectory, 'data.txt', text,{replace: false, append: true });
   }
 
-  readFile() {
-    /* Función de prueba para revisar txt generado */
-    this.file.readAsText(this.file.dataDirectory, 'data.txt').then((data) => {
-      alert('TXT GENERADO: '+ data);
-      this.generateZip(this.file.dataDirectory + 'data.txt', this.image);
-    });
-  }
-
-  generateZip(txt, img){
-    const zip = new JSZip();
-    const folder = zip.folder('data');
-    folder.file(txt);
-    folder.file(img);
-
-    zip.generateAsync({type: "uint8array"}).then(function (u8) {
-      this.encryptZipAndKeys(u8);
-    }, err => {
-      alert(err);
-    });
-  }
-
   async generateSecureKeyAndIV() {
     let resultIV = '';
     let result = '';
@@ -114,16 +92,49 @@ export class SendDiagnosePage implements OnInit {
 
   encryptZipAndKeys(zip){
     this.aes256.encrypt(this.secureKey, this.secureIV, zip).then(res => {
-      alert('ZIP ENCRIPTADO'+ res);  
       this.zipEncrypted = res;
-      
-      alert('LLAVE AES: '+ this.secureKey);
-     // this.encryptedKey = cryptico.encrypt(this.secureKey, this.publicKey);
-     // alert(this.encryptedKey);
+      this.http.get(this.publicKey, {responseType: 'text'})
+        .subscribe(data => {
+          let crypt = new Crypt();
+          this.encryptedKey = crypt.encrypt(data, this.secureKey);
+          this.encryptedIV = crypt.encrypt(data, this.secureIV);
+          this.generateFinalZip();
+        });
     });
-
-    
-
   }
 
+  generateFinalZip(){
+    const zipEnc = this.zipEncrypted;
+    const keyEnc = this.encryptedKey;
+    const ivEnc = this.encryptedIV;
+    const content = [];
+    content.push(zipEnc);
+    content.push(keyEnc);
+    content.push(ivEnc);
+    this.zipserv.generateZip('info', content).then(res => {
+        this.finalZip = res;
+        this.upload.sendEmail(this.finalZip);
+        this.router.navigate(['share']);
+    }, err => {
+        console.log(err);
+      });
+  }
+
+
+
+  readFile() {
+    /* Función de prueba para revisar txt generado */
+    this.file.readAsText(this.file.dataDirectory, 'data.txt').then((data) => {
+      const text = `${this.file.dataDirectory}data.txt`;
+      const img = this.image;
+      const content = [];
+      content.push(text);
+      content.push(img);
+      this.zipserv.generateZip('data', content).then(res => {
+
+      }, err => {
+        console.log(err);
+      })
+    });
+  }
 }
