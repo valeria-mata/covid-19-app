@@ -4,7 +4,6 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
-import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { DatabaseService } from './services/database.service';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
@@ -26,7 +25,6 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private sqlite: SQLite, 
-    private porter: SQLitePorter,
     private bluetooth: BluetoothLE,
     private database: DatabaseService,
     private bleServ: BluetoothService,
@@ -55,6 +53,12 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+
+    if(this.platform.is('android')) {
+      this.platform.backButton.subscribeWithPriority(9999, () => {
+        console.log('Hardware back button disable');
+      });
+    }
   }
 
   initDB() {

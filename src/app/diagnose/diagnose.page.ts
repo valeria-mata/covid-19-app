@@ -36,9 +36,9 @@ export class DiagnosePage implements OnInit {
     this.user = this.data.getUserData();
     this.backgroundMode.setEnabled(true);
       
-    /*this.interval = setInterval(() =>
+    this.interval = setInterval(() =>
       this.insertNewRow()
-    , 5000);*/
+    , 50000);
     
   }
 
@@ -76,7 +76,7 @@ export class DiagnosePage implements OnInit {
 
   insertNewRow(){
     console.log('agregar fila');
-    let fecha = new Date;
+    let fecha = new Date().toString()
     let testing = {
       name: this.user.name,
       phone: this.user.phone,
