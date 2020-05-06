@@ -105,7 +105,6 @@ export class ActivationPage implements OnInit {
   }
 
   sendToDatabase(){
-
       this.database.insertRow(this.userEncrypted).then(data => {
         this.router.navigate(['diagnose']);
       }, error => {

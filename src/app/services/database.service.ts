@@ -56,7 +56,7 @@ export class DatabaseService {
 
   insertRow(user: UserData){
     let sql = 'INSERT INTO userInformation(name, phone, email, birthyear, regdate) VALUES(?, ?, ?, ?, ?)';
-    return this.db.executeSql(sql, [user.name, user.phone, user.email, user.birthyear]);
+    return this.db.executeSql(sql, [user.name, user.phone, user.email, user.birthyear, user.regdate]);
   }
 
 }

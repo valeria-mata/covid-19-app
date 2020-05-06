@@ -55,9 +55,9 @@ export class HomePage {
       phone: `${this.userRegistration.controls.intCode.value}${this.userRegistration.controls.phone.value}`,
       email : this.userRegistration.controls.email.value,
       birthyear: this.userRegistration.controls.year.value.substr(0,4),
-      regdate: new Date() 
+      regdate: new Date().toString() 
     };
-
+    
     this.data.setUserData(this.userPlain);
 
     this.activation.sendEmail(this.userRegistration.controls.email.value, this.userPlain.phone).subscribe(res => { 

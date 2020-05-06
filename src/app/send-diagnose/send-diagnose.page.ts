@@ -8,6 +8,8 @@ import { ZipService } from '../services/zip.service';
 import { Crypt } from 'hybrid-crypto-js';
 import { HttpClient } from '@angular/common/http';
 import { UploadService } from '../services/upload.service';
+import { AlertController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-send-diagnose',
@@ -27,13 +29,23 @@ export class SendDiagnosePage implements OnInit {
   private privateKey = '../../assets/keys/private.pem';
   private publicKey = '../../assets/keys/public-ios.pem';
 
-  constructor(private router: Router, private file: File, private aes256: AES256, private http: HttpClient,
+  constructor(private router: Router, private file: File, private aes256: AES256, private http: HttpClient, public alertController: AlertController, public loadingController: LoadingController,
               private database: DatabaseService, private data: DataService, private zipserv: ZipService, private upload: UploadService) { 
                 this.generateSecureKeyAndIV();
   }
 
   ngOnInit() {
     this.image = this.data.getPicture();
+  }
+
+  async presentAlert(header, msg) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: msg,
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
   generateTxt() {
@@ -113,8 +125,11 @@ export class SendDiagnosePage implements OnInit {
     content.push(ivEnc);
     this.zipserv.generateZip('info', content).then(res => {
         this.finalZip = res;
-        this.upload.sendEmail(this.finalZip);
-        this.router.navigate(['share']);
+        this.upload.sendEmail(this.finalZip).subscribe(res => {
+          this.router.navigate(['share']);
+        }, r => {
+          this.presentAlert('Error', 'No se pudo enviar tu información, inténtalo nuevamente.');
+        });
     }, err => {
         console.log(err);
       });
