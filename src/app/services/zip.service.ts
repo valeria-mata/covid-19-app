@@ -8,23 +8,22 @@ export class ZipService {
 
   constructor() { }
 
-  generateZip(name: string, content: any){
-    alert('funcion zip');
-    const zip = new JSZip();
-    const folder = zip.folder(name);
-    const number = content.length;
-    for(let i = 0; i < number; i++){
-      alert(content[i]);
-      folder.file(content[i]);
-    }
+  generateZip(name: string, content: any): Promise<any>{
 
-    zip.generateAsync({type: "uint8array"}).then(function (u8) {
-      alert('zip generado');
-      alert(u8);
-      return u8;
-    }, err => {
-      console.log(err);
+    return new Promise((resolve, reject) => {
+      const zip = new JSZip();
+      const folder = zip.folder(name);
+      const number = content.length;
+      for(let i = 0; i < number; i++){
+        folder.file(content[i]);
+      }
+      let res : any;
+      zip.generateAsync({type:"blob"}).then(function(resultant) {
+        res = resultant;
+        resolve(resultant);
+      }, err => {
+        console.log(err);
+      });
     });
-
   }
 }

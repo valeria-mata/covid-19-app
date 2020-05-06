@@ -36,12 +36,10 @@ export class DiagnosePage implements OnInit {
     this.user = this.data.getUserData();
     this.backgroundMode.setEnabled(true);
       
-    this.interval = setInterval(() =>
+    /*this.interval = setInterval(() =>
       this.insertNewRow()
-    , 5000);
-     
+    , 5000);*/
     
-      
   }
 
   async presentAlert(header, msg) {
