@@ -54,6 +54,17 @@ export class DatabaseService {
     }).catch(error => Promise.reject(error));
   }
 
+  selectTop(){
+    let sql = 'SELECT * FROM userInformation LIMIT 1';
+    return this.db.executeSql(sql, []).then(res => {
+      let users = [];
+      for(let i = 0; i < res.rows.length; i++) {
+        users.push(res.rows.item(i));
+      }
+      return Promise.resolve(users);
+    }).catch(error => Promise.reject(error));
+  }
+
   insertRow(user: UserData){
     let sql = 'INSERT INTO userInformation(name, phone, email, birthyear, regdate) VALUES(?, ?, ?, ?, ?)';
     return this.db.executeSql(sql, [user.name, user.phone, user.email, user.birthyear, user.regdate]);

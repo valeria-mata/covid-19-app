@@ -96,7 +96,7 @@ export class ActivationPage implements OnInit {
                 regdate: this.userPlain.regdate
               };
               this.data.setUserData(this.userEncrypted);
-              this.data.setUserString(`${this.userEncrypted.name}:${this.userEncrypted.phone}:${this.userEncrypted.email}:${this.userEncrypted.birthyear}`)
+              this.data.setUserString(`${this.userEncrypted.name}:${this.userEncrypted.phone}:${this.userEncrypted.email}:${this.userEncrypted.birthyear}`);
               this.sendToDatabase();
             });
         });

@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { BluetoothService } from './services/bluetooth.service';
+import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ export class AppComponent {
     private bluetooth: BluetoothLE,
     private database: DatabaseService,
     private bleServ: BluetoothService,
+    private data: DataService,
     private router: Router
   ) {
     this.initializeApp();
@@ -72,7 +74,11 @@ export class AppComponent {
           this.database.selectAll().then(data => {
             this.database.setUsers(data);
             if(data.length > 0) {
-              this.router.navigate(['diagnose']);
+              this.database.selectTop().then(top => {
+                this.data.setUserString(`${top[0].name}:${top[0].phone}:${top[0].email}:${top[0].birthyear}`);
+                this.router.navigate(['diagnose']);
+              })
+              
             }
           }).catch(err => {
             this.database.setError(err);
