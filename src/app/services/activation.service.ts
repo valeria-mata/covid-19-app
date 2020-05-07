@@ -21,6 +21,7 @@ export class ActivationService {
       email,
       phone
     };
+    console.log(this.httpOptions.headers);
     return this.http.post<any>(sendEmail, body, {headers: this.httpOptions.headers});
   }
 

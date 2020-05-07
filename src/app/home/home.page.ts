@@ -61,7 +61,6 @@ export class HomePage {
     this.data.setUserData(this.userPlain);
 
     this.activation.sendEmail(this.userRegistration.controls.email.value, this.userPlain.phone).subscribe(res => { 
-      console.log(this.userPlain.phone);
       this.router.navigate(['activation']);
     }, error => {
       console.log(error);
