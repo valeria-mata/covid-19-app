@@ -12,7 +12,7 @@ export class UploadService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json' 
+      'Content-Type': 'application/zip, application/octet-stream' 
     })
   };
 

@@ -18,7 +18,7 @@ export class ZipService {
         folder.file(content[i]);
       }
       let res : any;
-      zip.generateAsync({type:"blob"}).then(function(resultant) {
+      zip.generateAsync({type: "base64"}).then(function(resultant) {
         res = resultant;
         resolve(resultant);
       }, err => {

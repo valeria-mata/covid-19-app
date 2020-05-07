@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -70,7 +69,7 @@ export class AppComponent {
         this.database.createTable(this.dbase).then((data) => {
           this.dbReady.next(true);
           this.database.setUsers(data);
-          this.database.selectAll().then( data => {
+          this.database.selectAll().then(data => {
             this.database.setUsers(data);
             if(data.length > 0) {
               this.router.navigate(['diagnose']);
