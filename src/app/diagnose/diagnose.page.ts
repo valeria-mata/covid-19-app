@@ -29,9 +29,6 @@ export class DiagnosePage implements OnInit {
  
   ngOnInit() {
     this.userString = this.data.getUserString();
-    //this.userString = `${this.user.name}:${this.user.phone}:${this.user.email}:${this.user.birthyear}`;
-    
-    alert(this.userString);
     this.backgroundMode.setEnabled(true);
       
   }
@@ -79,59 +76,18 @@ export class DiagnosePage implements OnInit {
   
 
   insertNewRow(){
-    this.userReceived = this.userString;
-    
-    alert(this.userString);
+    //this.userReceived = this.userString;
 
-    let part = this.userReceived.indexOf(':', 0);
-    alert('indice 1: ' + part);
-    let name = this.userReceived.substr(0,part-1);
-    alert('name: ' + name);
-    let part2 = this.userReceived.indexOf(':', part+1);
-    alert('indice 2: ' + part2);
-    let phone = this.userReceived.substr(part+1,part2-1);
-    alert('phone: ' + phone);
-    let part3 = this.userReceived.indexOf(':', part2+1);
-    alert('indice 3: ' + part3);
-    let email = this.userReceived.substr(part2+1,part3-1);
-    alert('email: ' + email);
-    let birthyear = this.userReceived.substr(part3+1,this.userReceived.length);
-    alert('birthyear: ' + birthyear);
-
-
-
-
-    alert(this.userReceived);
-
-
+    let info = this.userReceived.split(':');
     let fecha = new Date().toString()
     let newUser = {
-      name: '',
-      phone: '',
-      email: '',
-      birthyear: '',
+      name: info[0],
+      phone: info[1],
+      email: info[2],
+      birthyear: info[2],
       regdate: fecha
     };
-
-    //this.database.insertRow(newUser);
+    this.database.insertRow(newUser);
   }
-
-  
-  test(){
-    this.insertNewRow();
-    this.database.selectAll().then( data => {
-      alert(JSON.stringify(data));
-    });
-    let flag = this.backgroundMode.isActive();
-    alert(flag);
-    if(flag){
-      this.backgroundMode.disable();
-    }
-    
-
-  }
-
-
-
 
 }
