@@ -20,24 +20,20 @@ export class DiagnosePage implements OnInit {
 
   user : UserData;
   userString: string;
+  userReceived: string;
   image: any;
-
-
-  interval: any;
 
   constructor(private router: Router, public alertController: AlertController, private backgroundMode: BackgroundMode, 
               private data: DataService, private database: DatabaseService, private bluetooth: BluetoothService,
               private camera: Camera) { }
  
   ngOnInit() {
-    this.user = this.data.getUserData();
-    this.userString = `${this.user.name}:${this.user.phone}:${this.user.email}:${this.user.birthyear}`;
+    this.userString = this.data.getUserString();
+    //this.userString = `${this.user.name}:${this.user.phone}:${this.user.email}:${this.user.birthyear}`;
+    
+    alert(this.userString);
     this.backgroundMode.setEnabled(true);
       
-    /*this.interval = setInterval(() =>
-      this.insertNewRow()
-    , 50000);*/
-    
   }
 
   async presentAlert(header, msg) {
@@ -51,6 +47,8 @@ export class DiagnosePage implements OnInit {
   }
 
   openCamera(){
+    this.backgroundMode.disable();
+
     const options: CameraOptions = {
       quality: 60,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -81,22 +79,46 @@ export class DiagnosePage implements OnInit {
   
 
   insertNewRow(){
-    console.log('agregar fila');
+    this.userReceived = this.userString;
+    
+    alert(this.userString);
+
+    let part = this.userReceived.indexOf(':', 0);
+    alert('indice 1: ' + part);
+    let name = this.userReceived.substr(0,part-1);
+    alert('name: ' + name);
+    let part2 = this.userReceived.indexOf(':', part+1);
+    alert('indice 2: ' + part2);
+    let phone = this.userReceived.substr(part+1,part2-1);
+    alert('phone: ' + phone);
+    let part3 = this.userReceived.indexOf(':', part2+1);
+    alert('indice 3: ' + part3);
+    let email = this.userReceived.substr(part2+1,part3-1);
+    alert('email: ' + email);
+    let birthyear = this.userReceived.substr(part3+1,this.userReceived.length);
+    alert('birthyear: ' + birthyear);
+
+
+
+
+    alert(this.userReceived);
+
+
     let fecha = new Date().toString()
-    let testing = {
-      name: this.user.name,
-      phone: this.user.phone,
-      email: this.user.email,
-      birthyear: this.user.birthyear,
+    let newUser = {
+      name: '',
+      phone: '',
+      email: '',
+      birthyear: '',
       regdate: fecha
     };
 
-    this.database.insertRow(testing);
+    //this.database.insertRow(newUser);
   }
 
   
   test(){
-    clearInterval(this.interval);
+    this.insertNewRow();
     this.database.selectAll().then( data => {
       alert(JSON.stringify(data));
     });

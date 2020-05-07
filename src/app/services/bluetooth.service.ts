@@ -8,16 +8,29 @@ import { Platform, AlertController } from '@ionic/angular';
 })
 export class BluetoothService {
 
+  bluetoothStatus: any;
   service = 'E20A39F4-73F5-4BC4-A12F-17D1AD07A961';
   characteristic = '08590F7E-DB05-467E-8757-72F6FAEB13D4';
   device: any;
 
   constructor(private bluetoothle: BluetoothLE, public plt: Platform, public alertController: AlertController) {
-    this.plt.ready().then((readySource) => {
+    /*this.plt.ready().then((readySource) => {
       console.log('Platform ready from', readySource);
       this.init();
-    });
+    });*/
    }
+
+   setBluetoothStatus(status: any) {
+    this.bluetoothStatus = status;
+  }
+
+  getUBluetoothStatus() {
+    return this.bluetoothStatus;
+  }
+  
+  initBluetooth() {
+    return this.bluetoothle.initialize();
+  }
 
    async presentAlert(msg: string) {
     const alert = await this.alertController.create({
