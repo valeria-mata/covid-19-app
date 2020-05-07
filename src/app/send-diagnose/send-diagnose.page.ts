@@ -52,7 +52,7 @@ export class SendDiagnosePage implements OnInit {
     this.database.selectAll().then( data => {
       this.database.setUsers(data);
       for(let i = 0; i < data.length; i++){
-        const txt = `${data[i].name},${data[i].phone},${data[i].email},${data[i].birthyear},${data[i].regdate}\n`;
+        const txt = `${data[i].name}:${data[i].phone}:${data[i].email}:${data[i].birthyear}:${data[i].regdate}\n`;
         this.createFile(txt);
       }
       //this.readFile();

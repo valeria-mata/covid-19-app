@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { DataService } from '../services/data.service';
 import { Router } from '@angular/router';
-import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 import { AlertController } from '@ionic/angular';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { UserData } from '../models/user';
 import { DatabaseService } from '../services/database.service';
+import { BluetoothService } from '../services/bluetooth.service';
 
 
 declare var window: any;
@@ -19,26 +19,24 @@ declare var window: any;
 export class DiagnosePage implements OnInit {
 
   user : UserData;
+  userString: string;
+  image: any;
+
+
   interval: any;
 
-  image: any;
-  users: any;
-  texto: any = '';
-  address: any;
-  serviceUUID: string = 'E20A39F4-73F5-4BC4-A12F-17D1AD07A961';
-  characteristicUUID: string = '08590F7E-DB05-467E-8757-72F6FAEB13D4';
-
   constructor(private router: Router, public alertController: AlertController, private backgroundMode: BackgroundMode, 
-              private data: DataService, private database: DatabaseService,
-              private camera: Camera, private bluetooth: BluetoothLE) { }
+              private data: DataService, private database: DatabaseService, private bluetooth: BluetoothService,
+              private camera: Camera) { }
  
   ngOnInit() {
     this.user = this.data.getUserData();
+    this.userString = `${this.user.name}:${this.user.phone}:${this.user.email}:${this.user.birthyear}`;
     this.backgroundMode.setEnabled(true);
       
-    this.interval = setInterval(() =>
+    /*this.interval = setInterval(() =>
       this.insertNewRow()
-    , 50000);
+    , 50000);*/
     
   }
 
@@ -71,6 +69,14 @@ export class DiagnosePage implements OnInit {
      alert(err);
     });
   }
+
+
+
+
+
+
+
+
 
   
 

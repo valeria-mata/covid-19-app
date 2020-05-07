@@ -20,6 +20,7 @@ export class UploadService {
     const body = {
       finalZip
     };
+    console.log(this.httpOptions.headers);
     return this.http.post<any>(uploadData, body, {headers: this.httpOptions.headers});
   }
 }
